@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "name": "polarity",
+    "url": "https://polarity.so",
+    "analyzed_at": "2024-01-15",
+    "title": "Polarity - AI-Powered Design System",
+    "tags": ["landing", "ai", "dark-theme"],
+    "page_type": "website",
+    "theme": "dark"
+  },
+  "screenshots": {
+    "full": "screenshots/full/desktop_full.png",
+    "sections": [
+      {
+        "id": "navigation",
+        "file": "screenshots/sections/01_navigation.png",
+        "top": 0,
+        "height": 80
+      },
+      {
+        "id": "hero",
+        "file": "screenshots/sections/02_hero.png",
+        "top": 80,
+        "height": 600
+      },
+      {
+        "id": "features",
+        "file": "screenshots/sections/03_features.png",
+        "top": 680,
+        "height": 400
+      },
+      {
+        "id": "testimonials",
+        "file": "screenshots/sections/04_testimonials.png",
+        "top": 1080,
+        "height": 350
+      },
+      {
+        "id": "footer",
+        "file": "screenshots/sections/05_footer.png",
+        "top": 1430,
+        "height": 200
+      }
+    ],
+    "responsive": {
+      "tablet": {
+        "viewport": "768x1024",
+        "files": [
+          "screenshots/responsive/tablet/tablet_01_top.png",
+          "screenshots/responsive/tablet/tablet_02_middle.png",
+          "screenshots/responsive/tablet/tablet_03_bottom.png"
+        ]
+      },
+      "mobile": {
+        "viewport": "375x812",
+        "files": [
+          "screenshots/responsive/mobile/mobile_01_top.png",
+          "screenshots/responsive/mobile/mobile_02_middle.png",
+          "screenshots/responsive/mobile/mobile_03_bottom.png"
+        ]
+      }
+    }
+  },
+  "tech_stack": {
+    "framework": {
+      "name": "Next.js",
+      "version": "15+",
+      "features": ["App Router", "SSR/SSG", "Turbopack"],
+      "evidence": "/_next/ paths found in assets"
+    },
+    "css": {
+      "approach": "Tailwind CSS",
+      "confidence": "high",
+      "evidence": "156/200 classes match Tailwind patterns",
+      "stats": {
+        "sheets": 3,
+        "rules": 245,
+        "keyframes": 4,
+        "mediaQueries": 12
+      }
+    },
+    "icons": {
+      "library": "Lucide",
+      "icons": ["lucide-arrow-right", "lucide-check", "lucide-star", "lucide-menu"]
+    },
+    "fonts": {
+      "raw": ["Inter", "Inter var", "Roboto Mono"],
+      "primary": "Inter",
+      "serif": null,
+      "mono": "Roboto Mono"
+    },
+    "analytics": [
+      { "name": "PostHog", "version": "1.0", "type": "product analytics" },
+      { "name": "Google Analytics", "type": "web analytics" }
+    ],
+    "images": {
+      "total": 24,
+      "svg_count": 8,
+      "formats": { "png": 10, "svg": 8, "webp": 6 }
+    },
+    "layout": {
+      "grid": true,
+      "flexbox": true
+    }
+  },
+  "design_system": {
+    "colors": {
+      "theme": "dark",
+      "background": "rgb(0, 0, 0)",
+      "text": "rgb(255, 255, 255)",
+      "used": [
+        "rgb(34, 197, 94)",
+        "rgb(59, 130, 246)",
+        "rgb(168, 85, 247)",
+        "rgb(236, 72, 153)",
+        "rgb(251, 191, 36)",
+        "rgb(255, 255, 255)",
+        "rgb(156, 163, 175)",
+        "rgb(107, 114, 128)",
+        "rgb(31, 41, 55)"
+      ]
+    },
+    "typography": {
+      "body_font": "Inter, system-ui, sans-serif",
+      "body_font_size": "16px",
+      "body_line_height": "1.5"
+    },
+    "css_variables": {
+      "--primary": "#3b82f6",
+      "--secondary": "#a855f7",
+      "--accent": "#ec4899",
+      "--success": "#22c55e",
+      "--warning": "#fbbf24",
+      "--background": "#000000",
+      "--foreground": "#ffffff",
+      "--muted": "#6b7280",
+      "--border": "#1f2937",
+      "--radius": "0.5rem"
+    },
+    "animations": ["fadeIn", "slideUp", "slideIn", "pulse"],
+    "effects": {
+      "backdrop_filter": true
+    }
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Library Extractor Template",
+  "description": "Configuration template for Library Extractor component extraction",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "object",
+      "properties": {
+        "repo": {
+          "type": "string",
+          "description": "GitHub repository URL"
+        },
+        "branch": {
+          "type": "string",
+          "default": "main",
+          "description": "Branch to extract from"
+        },
+        "paths": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["src/components", "src/lib"],
+          "description": "Paths to scan for components"
+        },
+        "exclude": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["node_modules", "dist", "build"],
+          "description": "Paths to exclude"
+        }
+      },
+      "required": ["repo"]
+    },
+    "extraction": {
+      "type": "object",
+      "properties": {
+        "components": {
+          "type": "boolean",
+          "default": true,
+          "description": "Extract React/Vue/Svelte components"
+        },
+        "hooks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Extract custom hooks"
+        },
+        "utils": {
+          "type": "boolean",
+          "default": true,
+          "description": "Extract utility functions"
+        },
+        "types": {
+          "type": "boolean",
+          "default": true,
+          "description": "Extract TypeScript types/interfaces"
+        },
+        "tokens": {
+          "type": "boolean",
+          "default": true,
+          "description": "Extract design tokens"
+        },
+        "styles": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include component styles"
+        }
+      }
+    },
+    "framework": {
+      "type": "object",
+      "properties": {
+        "react": { "type": "boolean", "default": true },
+        "vue": { "type": "boolean", "default": false },
+        "svelte": { "type": "boolean", "default": false }
+      }
+    },
+    "classification": {
+      "type": "object",
+      "properties": {
+        "naming": {
+          "type": "object",
+          "properties": {
+            "uiPattern": { "type": "string", "default": "^[A-Z][a-zA-Z]+\\.tsx$" },
+            "hookPattern": { "type": "string", "default": "^use[A-Z][a-zA-Z]+\\.ts$" },
+            "utilPattern": { "type": "string", "default": "^[a-z][a-zA-Z]+\\.ts$" }
+          }
+        },
+        "folders": {
+          "type": "object",
+          "properties": {
+            "ui": { "type": "array", "items": { "type": "string" }, "default": ["ui", "components"] },
+            "sections": { "type": "array", "items": { "type": "string" }, "default": ["sections"] },
+            "features": { "type": "array", "items": { "type": "string" }, "default": ["features"] },
+            "hooks": { "type": "array", "items": { "type": "string" }, "default": ["hooks"] }
+          }
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": ["npm-package", "json", "markdown"],
+          "default": "npm-package"
+        },
+        "name": {
+          "type": "string",
+          "description": "Package name (e.g., @extracted/library)"
+        },
+        "version": {
+          "type": "string",
+          "default": "1.0.0"
+        },
+        "directory": {
+          "type": "string",
+          "default": "extracted-library"
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "properties": {
+        "includePeerDeps": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include peer dependencies in package.json"
+        },
+        "externalize": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["react", "react-dom"],
+          "description": "Dependencies to externalize (peer deps)"
+        }
+      }
+    }
+  },
+  "required": ["source"],
+  "examples": [
+    {
+      "source": {
+        "repo": "https://github.com/user/react-components",
+        "branch": "main",
+        "paths": ["src/components", "src/hooks", "src/utils"]
+      },
+      "extraction": {
+        "components": true,
+        "hooks": true,
+        "utils": true,
+        "types": true
+      },
+      "output": {
+        "format": "npm-package",
+        "name": "@my-org/components"
+      }
+    }
+  ]
+}

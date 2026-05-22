@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Extractor Template",
+  "description": "Configuration template for Design Extractor analysis",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Website URL to analyze"
+        },
+        "name": {
+          "type": "string",
+          "description": "Optional site name (auto-derived from URL if not provided)"
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Tags for categorization"
+        }
+      },
+      "required": ["url"]
+    },
+    "analysis": {
+      "type": "object",
+      "properties": {
+        "techStack": {
+          "type": "boolean",
+          "default": true,
+          "description": "Detect framework, CSS, analytics"
+        },
+        "sections": {
+          "type": "boolean",
+          "default": true,
+          "description": "Detect page sections"
+        },
+        "screenshots": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "fullPage": { "type": "boolean", "default": true },
+            "sections": { "type": "boolean", "default": true },
+            "responsive": { "type": "boolean", "default": true }
+          }
+        },
+        "designSystem": {
+          "type": "boolean",
+          "default": true,
+          "description": "Extract colors, typography, CSS variables"
+        }
+      }
+    },
+    "screenshots": {
+      "type": "object",
+      "properties": {
+        "viewport": {
+          "type": "object",
+          "properties": {
+            "width": { "type": "integer", "default": 1280 },
+            "height": { "type": "integer", "default": 720 }
+          }
+        },
+        "responsive": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "width": { "type": "integer" },
+              "height": { "type": "integer" }
+            }
+          },
+          "default": [
+            { "name": "tablet", "width": 768, "height": 1024 },
+            { "name": "mobile", "width": 375, "height": 812 }
+          ]
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "directory": {
+          "type": "string",
+          "default": "download/design-library",
+          "description": "Output directory for analyzed data"
+        },
+        "formats": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["json", "css"] },
+          "default": ["json"]
+        }
+      }
+    },
+    "browser": {
+      "type": "object",
+      "properties": {
+        "headless": { "type": "boolean", "default": true },
+        "timeout": { "type": "integer", "default": 30000 },
+        "waitForJS": { "type": "integer", "default": 2000 }
+      }
+    }
+  },
+  "required": ["source"],
+  "examples": [
+    {
+      "source": {
+        "url": "https://example.com",
+        "name": "example-site",
+        "tags": ["landing", "dark-theme"]
+      },
+      "analysis": {
+        "techStack": true,
+        "sections": true,
+        "screenshots": { "enabled": true },
+        "designSystem": true
+      },
+      "output": {
+        "formats": ["json", "css"]
+      }
+    }
+  ]
+}

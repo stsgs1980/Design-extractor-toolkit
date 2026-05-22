@@ -1,0 +1,2895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EnergyHelix 3D - Complete Reference Guide</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            helix: {
+              amber: '#F59E0B',
+              gold: '#FFD700',
+              crude: '#8B4513',
+              gas: '#00CED1',
+              rbob: '#32CD32',
+              heat: '#9370DB',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .tab-btn.active { border-color: #F59E0B; color: #F59E0B; background: rgba(245, 158, 11, 0.1); }
+    .playground-content { display: none; }
+    .playground-content.active { display: block; }
+    pre { counter-reset: line; }
+    code .line { display: block; padding-left: 3rem; position: relative; }
+    code .line::before {
+      counter-increment: line;
+      content: counter(line);
+      position: absolute;
+      left: 0;
+      width: 2.5rem;
+      text-align: right;
+      color: #4B5563;
+      font-size: 0.75rem;
+    }
+    .copy-btn:hover { transform: scale(1.05); }
+    .copy-btn.copied { background: #10B981 !important; }
+    .prop-row:hover { background: rgba(245, 158, 11, 0.05); }
+    .component-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.15); }
+    .extract-card { cursor: pointer; }
+    .extract-card:hover { transform: translateY(-3px); }
+    .extract-card.selected { border-color: #EC4899; box-shadow: 0 0 20px rgba(236, 72, 153, 0.3); }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #1F2937; }
+    ::-webkit-scrollbar-thumb { background: #4B5563; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #6B7280; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100 font-sans min-h-screen">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-gray-900/95 backdrop-blur-md border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-600 rounded-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-white">EnergyHelix 3D</h1>
+          <p class="text-xs text-gray-400">Complete Reference Guide</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs font-mono rounded">v1.0.0</span>
+        <a href="https://github.com/stsgs1980/energy-helix-3d" target="_blank" class="text-gray-400 hover:text-white transition">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Tab Navigation -->
+  <nav class="bg-gray-900 border-b border-gray-800 sticky top-[73px] z-40">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex gap-1 overflow-x-auto py-2">
+        <button class="tab-btn active px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition whitespace-nowrap" data-tab="overview">
+          Overview
+        </button>
+        <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition whitespace-nowrap" data-tab="components">
+          Components
+        </button>
+        <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition whitespace-nowrap" data-tab="props">
+          Props Reference
+        </button>
+        <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition whitespace-nowrap" data-tab="types">
+          TypeScript Types
+        </button>
+        <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition whitespace-nowrap" data-tab="events">
+          Events & Callbacks
+        </button>
+        <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition whitespace-nowrap" data-tab="recipes">
+          Recipes
+        </button>
+        <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition whitespace-nowrap" data-tab="playground">
+          Playground
+        </button>
+        <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition whitespace-nowrap" data-tab="performance">
+          Performance
+        </button>
+        <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition whitespace-nowrap" data-tab="troubleshooting">
+          Troubleshooting
+        </button>
+        <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-gray-200 transition whitespace-nowrap" data-tab="extracted">
+          📦 Extracted
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-6 py-8">
+
+    <!-- ==================== OVERVIEW TAB ==================== -->
+    <div id="overview" class="tab-content active">
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Main Info -->
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-gray-900 rounded-xl border border-gray-800 p-6">
+            <h2 class="text-2xl font-bold mb-4">What is EnergyHelix 3D?</h2>
+            <p class="text-gray-300 leading-relaxed mb-4">
+              EnergyHelix 3D is a React/Three.js visualization library for energy futures data.
+              It renders candlestick data as a 3D helix structure where buyers and sellers spiral
+              around a central axis, with price mapped to the Z-axis.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded">React</span>
+              <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded">Three.js</span>
+              <span class="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded">r3f</span>
+              <span class="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs rounded">TypeScript</span>
+            </div>
+
+            <h3 class="text-lg font-semibold mb-3">Quick Start</h3>
+            <div class="relative">
+              <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="text-gray-300 font-mono">
+<span class="text-amber-400">// 1. Install dependencies</span>
+npm install energy-helix-3d @react-three/fiber @react-three/drei three
+
+<span class="text-amber-400">// 2. Import and use</span>
+import { EnergyHelix } from 'energy-helix-3d';
+import { Canvas } from '@react-three/fiber';
+
+function App() {
+  return (
+    &lt;Canvas&gt;
+      &lt;EnergyHelix
+        candles={candleData}
+        symbol="CL"
+      /&gt;
+    &lt;/Canvas&gt;
+  );
+}
+</code></pre>
+              <button class="copy-btn absolute top-2 right-2 px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs text-gray-300 transition" onclick="copyCode(this)">
+                Copy
+              </button>
+            </div>
+          </div>
+
+          <!-- Supported Symbols -->
+          <div class="bg-gray-900 rounded-xl border border-gray-800 p-6">
+            <h3 class="text-lg font-semibold mb-4">Supported Energy Futures</h3>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <div class="w-4 h-4 rounded-full" style="background: #FFD700"></div>
+                <div>
+                  <div class="font-medium">CL</div>
+                  <div class="text-xs text-gray-400">Crude Oil</div>
+                </div>
+                <div class="ml-auto w-4 h-4 rounded-full" style="background: #8B4513"></div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <div class="w-4 h-4 rounded-full" style="background: #00CED1"></div>
+                <div>
+                  <div class="font-medium">NG</div>
+                  <div class="text-xs text-gray-400">Natural Gas</div>
+                </div>
+                <div class="ml-auto w-4 h-4 rounded-full" style="background: #FF6347"></div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <div class="w-4 h-4 rounded-full" style="background: #32CD32"></div>
+                <div>
+                  <div class="font-medium">RB</div>
+                  <div class="text-xs text-gray-400">RBOB Gasoline</div>
+                </div>
+                <div class="ml-auto w-4 h-4 rounded-full" style="background: #FF4500"></div>
+              </div>
+              <div class="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <div class="w-4 h-4 rounded-full" style="background: #9370DB"></div>
+                <div>
+                  <div class="font-medium">HO</div>
+                  <div class="text-xs text-gray-400">Heating Oil</div>
+                </div>
+                <div class="ml-auto w-4 h-4 rounded-full" style="background: #DC143C"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+          <!-- Stats -->
+          <div class="bg-gray-900 rounded-xl border border-gray-800 p-6">
+            <h3 class="text-lg font-semibold mb-4">Library Stats</h3>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="text-gray-400">Components</span>
+                <span class="font-mono text-amber-400">14</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">Type Interfaces</span>
+                <span class="font-mono text-amber-400">16</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">Props Options</span>
+                <span class="font-mono text-amber-400">8</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-400">Callbacks</span>
+                <span class="font-mono text-amber-400">2</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Architecture -->
+          <div class="bg-gray-900 rounded-xl border border-gray-800 p-6">
+            <h3 class="text-lg font-semibold mb-4">Architecture</h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center gap-2 text-gray-300">
+                <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                No external store dependencies
+              </div>
+              <div class="flex items-center gap-2 text-gray-300">
+                <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                Props-driven architecture
+              </div>
+              <div class="flex items-center gap-2 text-gray-300">
+                <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                Fully typed with TypeScript
+              </div>
+              <div class="flex items-center gap-2 text-gray-300">
+                <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                Tree-shakeable exports
+              </div>
+            </div>
+          </div>
+
+          <!-- File Structure -->
+          <div class="bg-gray-900 rounded-xl border border-gray-800 p-6">
+            <h3 class="text-lg font-semibold mb-4">File Structure</h3>
+            <div class="font-mono text-xs space-y-1 text-gray-400">
+              <div>src/</div>
+              <div class="pl-4">index.ts</div>
+              <div class="pl-4">types.ts</div>
+              <div class="pl-4">EnergyHelix.tsx</div>
+              <div class="pl-4">Backbone.tsx</div>
+              <div class="pl-4">Nodes.tsx</div>
+              <div class="pl-4">Effects.tsx</div>
+              <div class="pl-4">Indicators.tsx</div>
+              <div class="pl-4">Markers.tsx</div>
+              <div class="pl-4">Selection.tsx</div>
+              <div class="pl-4">lib/</div>
+              <div class="pl-8">helixMath.ts</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== COMPONENTS TAB ==================== -->
+    <div id="components" class="tab-content">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold mb-2">Components</h2>
+        <p class="text-gray-400">14 exportable components organized by category</p>
+      </div>
+
+      <!-- Main Component -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"/></svg>
+          Main Component
+        </h3>
+        <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-6 transition">
+          <div class="flex items-start justify-between mb-4">
+            <div>
+              <h4 class="text-xl font-bold text-white">EnergyHelix</h4>
+              <p class="text-gray-400 text-sm mt-1">Root component that orchestrates all sub-components</p>
+            </div>
+            <span class="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs rounded">Main</span>
+          </div>
+          <div class="bg-gray-950 rounded-lg p-4 text-sm font-mono text-gray-300 mb-4">
+            import { EnergyHelix } from 'energy-helix-3d';
+          </div>
+          <div class="grid sm:grid-cols-3 gap-4 text-sm">
+            <div>
+              <span class="text-gray-500">Renders:</span>
+              <span class="text-gray-300 ml-2">Full helix visualization</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Children:</span>
+              <span class="text-gray-300 ml-2">13 sub-components</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Animated:</span>
+              <span class="text-green-400 ml-2">Auto-rotate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Backbone Components -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
+          Backbone
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="font-bold text-white">SpiralBackbone</h4>
+              <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs rounded">Structural</span>
+            </div>
+            <p class="text-gray-400 text-sm mb-3">Creates twin helical tubes connecting buyer/seller nodes</p>
+            <div class="text-xs text-gray-500 font-mono">Props: candles, symbol</div>
+          </div>
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="font-bold text-white">ConnectionBars</h4>
+              <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs rounded">Structural</span>
+            </div>
+            <p class="text-gray-400 text-sm mb-3">Cylindrical bars connecting opposite nodes across the helix</p>
+            <div class="text-xs text-gray-500 font-mono">Props: candles, symbol</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node Components -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          Nodes
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="font-bold text-white">BuyerNodes</h4>
+              <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">Interactive</span>
+            </div>
+            <p class="text-gray-400 text-sm mb-3">Instanced spheres representing buyer pressure, clickable/hoverable</p>
+            <div class="text-xs text-gray-500 font-mono">Props: candles, symbol, selectedIndex, onSelect</div>
+          </div>
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="font-bold text-white">SellerNodes</h4>
+              <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">Interactive</span>
+            </div>
+            <p class="text-gray-400 text-sm mb-3">Instanced spheres for seller pressure, opposite side of helix</p>
+            <div class="text-xs text-gray-500 font-mono">Props: candles, symbol, selectedIndex, onSelect</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Effects Components -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
+          Effects
+        </h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <h4 class="font-bold text-white mb-2">VolumeHeatmap</h4>
+            <p class="text-gray-400 text-sm mb-2">Toroidal rings showing volume intensity per level</p>
+            <span class="text-xs text-gray-500 font-mono">showVolumeProfile</span>
+          </div>
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <h4 class="font-bold text-white mb-2">AmbientGlowRing</h4>
+            <p class="text-gray-400 text-sm mb-2">Large decorative ring with pulsing opacity</p>
+            <span class="text-xs text-gray-500 font-mono">Always visible</span>
+          </div>
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <h4 class="font-bold text-white mb-2">PulsingEnergyCore</h4>
+            <p class="text-gray-400 text-sm mb-2">Central sphere with regime-based animation speed</p>
+            <span class="text-xs text-gray-500 font-mono">QUIET | RANGING | VOLATILE</span>
+          </div>
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <h4 class="font-bold text-white mb-2">ConnectingEnergyArcs</h4>
+            <p class="text-gray-400 text-sm mb-2">Bezier curves connecting key price levels</p>
+            <span class="text-xs text-gray-500 font-mono">current | high | low</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Indicator Components -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          Indicators
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <h4 class="font-bold text-white mb-2">PriceLevelIndicators</h4>
+            <p class="text-gray-400 text-sm mb-2">Vertical scale with price labels and key level planes</p>
+            <span class="text-xs text-gray-500 font-mono">Current | High | Low planes</span>
+          </div>
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <h4 class="font-bold text-white mb-2">FibonacciLevels</h4>
+            <p class="text-gray-400 text-sm mb-2">Fibonacci retracement levels (0% to 100%)</p>
+            <span class="text-xs text-gray-500 font-mono">showFibonacci prop</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Marker Components -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+          Markers
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <h4 class="font-bold text-white mb-2">EIADayMarkers</h4>
+            <p class="text-gray-400 text-sm mb-2">Highlights Wednesday EIA inventory report days</p>
+            <span class="text-xs text-gray-500 font-mono">showEIALayer prop</span>
+          </div>
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <h4 class="font-bold text-white mb-2">WeatherParticles</h4>
+            <p class="text-gray-400 text-sm mb-2">Instanced spheres for weather impact visualization</p>
+            <span class="text-xs text-gray-500 font-mono">showWeatherLayer prop</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selection Components -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/></svg>
+          Selection
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <h4 class="font-bold text-white mb-2">SelectionRing</h4>
+            <p class="text-gray-400 text-sm mb-2">Animated torus + glow ring + beam at selected candle</p>
+            <span class="text-xs text-gray-500 font-mono">selectedIndex controlled</span>
+          </div>
+          <div class="component-card bg-gray-900 rounded-xl border border-gray-800 p-5 transition">
+            <h4 class="font-bold text-white mb-2">SelectedCandleLabel</h4>
+            <p class="text-gray-400 text-sm mb-2">HTML overlay showing OHLCV data for selection</p>
+            <span class="text-xs text-gray-500 font-mono">Html from @react-three/drei</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PROPS TAB ==================== -->
+    <div id="props" class="tab-content">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold mb-2">Props Reference</h2>
+        <p class="text-gray-400">Complete props documentation with types and defaults</p>
+      </div>
+
+      <!-- EnergyHelix Props -->
+      <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden mb-6">
+        <div class="px-6 py-4 bg-gray-800/50 border-b border-gray-800">
+          <h3 class="font-bold text-lg">EnergyHelix Props</h3>
+        </div>
+        <div class="divide-y divide-gray-800">
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-start">
+            <div class="md:col-span-3">
+              <code class="text-amber-400 font-mono">candles</code>
+              <div class="text-xs text-gray-500 mt-1">Required</div>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">HelixCandle[]</code>
+            </div>
+            <div class="md:col-span-7 text-gray-300 text-sm">
+              Array of candle data objects. Each candle must have time, open, high, low, close, volume properties.
+            </div>
+          </div>
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-start">
+            <div class="md:col-span-3">
+              <code class="text-amber-400 font-mono">symbol</code>
+              <div class="text-xs text-gray-500 mt-1">Required</div>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">'CL' | 'NG' | 'RB' | 'HO'</code>
+            </div>
+            <div class="md:col-span-7 text-gray-300 text-sm">
+              Energy futures symbol. Determines color scheme and display formatting.
+            </div>
+          </div>
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-start">
+            <div class="md:col-span-3">
+              <code class="text-amber-400 font-mono">selectedIndex</code>
+              <div class="text-xs text-gray-500 mt-1">Optional</div>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">number | null</code>
+            </div>
+            <div class="md:col-span-7 text-gray-300 text-sm">
+              Index of currently selected candle. Pass null to deselect.
+              <div class="mt-2 text-xs text-gray-500">Default: null</div>
+            </div>
+          </div>
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-start">
+            <div class="md:col-span-3">
+              <code class="text-amber-400 font-mono">options</code>
+              <div class="text-xs text-gray-500 mt-1">Optional</div>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">HelixDisplayOptions</code>
+            </div>
+            <div class="md:col-span-7 text-gray-300 text-sm">
+              Display configuration object. See HelixDisplayOptions below.
+            </div>
+          </div>
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-start">
+            <div class="md:col-span-3">
+              <code class="text-amber-400 font-mono">callbacks</code>
+              <div class="text-xs text-gray-500 mt-1">Optional</div>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">HelixCallbacks</code>
+            </div>
+            <div class="md:col-span-7 text-gray-300 text-sm">
+              Event callback functions. See Events & Callbacks tab.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HelixDisplayOptions -->
+      <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden mb-6">
+        <div class="px-6 py-4 bg-gray-800/50 border-b border-gray-800">
+          <h3 class="font-bold text-lg">HelixDisplayOptions</h3>
+          <p class="text-sm text-gray-400 mt-1">Controls visibility of visualization layers</p>
+        </div>
+        <div class="divide-y divide-gray-800">
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-4">
+              <code class="text-amber-400 font-mono">showBuyers</code>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">boolean</code>
+            </div>
+            <div class="md:col-span-2 text-right">
+              <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">true</span>
+            </div>
+            <div class="md:col-span-4 text-gray-400 text-sm">Show buyer node spheres</div>
+          </div>
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-4">
+              <code class="text-amber-400 font-mono">showSellers</code>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">boolean</code>
+            </div>
+            <div class="md:col-span-2 text-right">
+              <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">true</span>
+            </div>
+            <div class="md:col-span-4 text-gray-400 text-sm">Show seller node spheres</div>
+          </div>
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-4">
+              <code class="text-amber-400 font-mono">showConnections</code>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">boolean</code>
+            </div>
+            <div class="md:col-span-2 text-right">
+              <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">true</span>
+            </div>
+            <div class="md:col-span-4 text-gray-400 text-sm">Show connection bars between nodes</div>
+          </div>
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-4">
+              <code class="text-amber-400 font-mono">showFibonacci</code>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">boolean</code>
+            </div>
+            <div class="md:col-span-2 text-right">
+              <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">true</span>
+            </div>
+            <div class="md:col-span-4 text-gray-400 text-sm">Show Fibonacci retracement levels</div>
+          </div>
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-4">
+              <code class="text-amber-400 font-mono">showEIALayer</code>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">boolean</code>
+            </div>
+            <div class="md:col-span-2 text-right">
+              <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">true</span>
+            </div>
+            <div class="md:col-span-4 text-gray-400 text-sm">Show EIA Wednesday markers</div>
+          </div>
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-4">
+              <code class="text-amber-400 font-mono">showWeatherLayer</code>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">boolean</code>
+            </div>
+            <div class="md:col-span-2 text-right">
+              <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">true</span>
+            </div>
+            <div class="md:col-span-4 text-gray-400 text-sm">Show weather impact particles</div>
+          </div>
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-4">
+              <code class="text-amber-400 font-mono">showVolumeProfile</code>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">boolean</code>
+            </div>
+            <div class="md:col-span-2 text-right">
+              <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">true</span>
+            </div>
+            <div class="md:col-span-4 text-gray-400 text-sm">Show volume heatmap rings</div>
+          </div>
+          <div class="prop-row px-6 py-4 grid md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-4">
+              <code class="text-amber-400 font-mono">autoRotate</code>
+            </div>
+            <div class="md:col-span-2">
+              <code class="text-blue-400 font-mono text-sm">boolean</code>
+            </div>
+            <div class="md:col-span-2 text-right">
+              <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">true</span>
+            </div>
+            <div class="md:col-span-4 text-gray-400 text-sm">Enable automatic rotation animation</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HelixCandle Structure -->
+      <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+        <div class="px-6 py-4 bg-gray-800/50 border-b border-gray-800">
+          <h3 class="font-bold text-lg">HelixCandle Data Structure</h3>
+        </div>
+        <div class="p-6">
+          <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="font-mono text-gray-300">interface HelixCandle {
+  time: number;        <span class="text-gray-500">// Unix timestamp (seconds)</span>
+  open: number;        <span class="text-gray-500">// Opening price</span>
+  high: number;        <span class="text-gray-500">// High price</span>
+  low: number;         <span class="text-gray-500">// Low price</span>
+  close: number;       <span class="text-gray-500">// Closing price</span>
+  volume: number;      <span class="text-gray-500">// Total volume</span>
+  delta?: number;      <span class="text-gray-500">// Optional: Buy - Sell volume</span>
+  buyVolume?: number;  <span class="text-gray-500">// Optional: Buyer volume</span>
+  sellVolume?: number; <span class="text-gray-500">// Optional: Seller volume</span>
+  weatherImpact?: number; <span class="text-gray-500">// Optional: Weather impact score (0-100)</span>
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TYPESCRIPT TYPES TAB ==================== -->
+    <div id="types" class="tab-content">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold mb-2">TypeScript Types</h2>
+        <p class="text-gray-400">Full type definitions exported from the package</p>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Core Types -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <div class="px-6 py-4 bg-gray-800/50 border-b border-gray-800 flex items-center justify-between">
+            <h3 class="font-bold text-lg">Core Types</h3>
+            <button class="copy-btn px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs text-gray-300 transition" onclick="copyCode(this)">
+              Copy All
+            </button>
+          </div>
+          <div class="p-6">
+            <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="font-mono text-gray-300"><span class="text-purple-400">// Symbol types</span>
+export type HelixSymbol = 'CL' | 'NG' | 'RB' | 'HO';
+
+export interface HelixSymbolConfig {
+  symbol: HelixSymbol;
+  name: string;
+  buyerColor: string;
+  sellerColor: string;
+}
+
+export const HELIX_SYMBOLS: Record&lt;HelixSymbol, HelixSymbolConfig&gt; = {
+  CL: { symbol: 'CL', name: 'Crude Oil', buyerColor: '#FFD700', sellerColor: '#8B4513' },
+  NG: { symbol: 'NG', name: 'Natural Gas', buyerColor: '#00CED1', sellerColor: '#FF6347' },
+  RB: { symbol: 'RB', name: 'RBOB Gasoline', buyerColor: '#32CD32', sellerColor: '#FF4500' },
+  HO: { symbol: 'HO', name: 'Heating Oil', buyerColor: '#9370DB', sellerColor: '#DC143C' },
+};
+
+<span class="text-purple-400">// Helix geometry types</span>
+export interface HelixPoint {
+  position: [number, number, number];
+  color: string;
+  scale: number;
+  candle: HelixCandle;
+  index: number;
+}
+
+export interface HelixData {
+  buyers: HelixPoint[];
+  sellers: HelixPoint[];
+  connections: [number, number][];
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- Props Interfaces -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <div class="px-6 py-4 bg-gray-800/50 border-b border-gray-800">
+            <h3 class="font-bold text-lg">Component Props Interfaces</h3>
+          </div>
+          <div class="p-6">
+            <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="font-mono text-gray-300"><span class="text-purple-400">// Main component</span>
+export interface EnergyHelixProps {
+  candles: HelixCandle[];
+  symbol: HelixSymbol;
+  selectedIndex?: number | null;
+  options?: HelixDisplayOptions;
+  callbacks?: HelixCallbacks;
+}
+
+<span class="text-purple-400">// Node components</span>
+export interface BuyerNodesProps {
+  candles: HelixCandle[];
+  symbol: HelixSymbol;
+  selectedIndex: number | null;
+  onSelect: (index: number | null) => void;
+}
+
+export interface SellerNodesProps {
+  candles: HelixCandle[];
+  symbol: HelixSymbol;
+  selectedIndex: number | null;
+  onSelect: (index: number | null) => void;
+}
+
+<span class="text-purple-400">// Backbone components</span>
+export interface SpiralBackboneProps {
+  candles: HelixCandle[];
+  symbol: HelixSymbol;
+}
+
+export interface ConnectionBarsProps {
+  candles: HelixCandle[];
+  symbol: HelixSymbol;
+}
+
+<span class="text-purple-400">// Selection components</span>
+export interface SelectionRingProps {
+  candles: HelixCandle[];
+  symbol: HelixSymbol;
+  selectedIndex: number | null;
+}
+
+export interface SelectedCandleLabelProps {
+  candles: HelixCandle[];
+  symbol: HelixSymbol;
+  selectedIndex: number | null;
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- Utility Types -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <div class="px-6 py-4 bg-gray-800/50 border-b border-gray-800">
+            <h3 class="font-bold text-lg">Math Utilities Types</h3>
+          </div>
+          <div class="p-6">
+            <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="font-mono text-gray-300">export interface HelixMathOptions {
+  heightPerCandle?: number;  <span class="text-gray-500">// Default: 0.22</span>
+  radius?: number;           <span class="text-gray-500">// Default: 2.2</span>
+  turnsPerCandle?: number;   <span class="text-gray-500">// Default: 0.1</span>
+}
+
+export const HELIX_CONSTANTS = {
+  HEIGHT_PER_CANDLE: 0.22,
+  TURNS_PER_CANDLE: 0.1,
+  HELIX_RADIUS: 2.2,
+  TARGET_Z_RANGE: 3,
+} as const;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== EVENTS & CALLBACKS TAB ==================== -->
+    <div id="events" class="tab-content">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold mb-2">Events & Callbacks</h2>
+        <p class="text-gray-400">Handle user interactions with the helix</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+        <div>
+          <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+            <div class="px-6 py-4 bg-gray-800/50 border-b border-gray-800">
+              <h3 class="font-bold text-lg">HelixCallbacks Interface</h3>
+            </div>
+            <div class="p-6">
+              <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="font-mono text-gray-300">export interface HelixCallbacks {
+  onCandleSelect?: (index: number | null) => void;
+  onCandleHover?: (index: number | null) => void;
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- onCandleSelect -->
+          <div class="bg-gray-900 rounded-xl border border-gray-800 mt-6 p-6">
+            <h4 class="font-bold text-amber-400 mb-3">onCandleSelect</h4>
+            <p class="text-gray-300 text-sm mb-4">
+              Called when a user clicks on a buyer or seller node. Passes the candle index or null if deselected.
+            </p>
+            <div class="bg-gray-950 rounded-lg p-4 overflow-x-auto">
+              <pre class="text-sm font-mono text-gray-300"><span class="text-purple-400">// Usage example</span>
+&lt;EnergyHelix
+  candles={data}
+  symbol="CL"
+  callbacks={{
+    onCandleSelect: (index) => {
+      if (index !== null) {
+        const candle = data[index];
+        console.log('Selected:', candle.close);
+      }
+    }
+  }}
+/&gt;</pre>
+            </div>
+          </div>
+
+          <!-- onCandleHover -->
+          <div class="bg-gray-900 rounded-xl border border-gray-800 mt-6 p-6">
+            <h4 class="font-bold text-amber-400 mb-3">onCandleHover</h4>
+            <p class="text-gray-300 text-sm mb-4">
+              Called when the cursor enters or leaves a node. Use for tooltips or highlighting external elements.
+            </p>
+            <div class="bg-gray-950 rounded-lg p-4 overflow-x-auto">
+              <pre class="text-sm font-mono text-gray-300"><span class="text-purple-400">// Usage example</span>
+const [hoveredCandle, setHoveredCandle] = useState(null);
+
+&lt;EnergyHelix
+  candles={data}
+  symbol="CL"
+  callbacks={{
+    onCandleHover: (index) => {
+      setHoveredCandle(index);
+    }
+  }}
+/&gt;</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interaction Details -->
+        <div>
+          <div class="bg-gray-900 rounded-xl border border-gray-800 p-6">
+            <h3 class="font-bold text-lg mb-4">Interaction Behavior</h3>
+            <div class="space-y-4">
+              <div class="flex items-start gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <div class="w-8 h-8 bg-green-500/20 rounded flex items-center justify-center shrink-0">
+                  <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.414 1.415l.708-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z"/></svg>
+                </div>
+                <div>
+                  <div class="font-medium text-white">Click to Select</div>
+                  <div class="text-sm text-gray-400">Click any node to select. Click again or click elsewhere to deselect.</div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <div class="w-8 h-8 bg-blue-500/20 rounded flex items-center justify-center shrink-0">
+                  <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.625 2.655A9 9 0 0119 11a1 1 0 11-2 0 7 7 0 00-9.625-6.492 1 1 0 11-.75-1.853zM4.662 4.959A1 1 0 014.75 6.37 6.97 6.97 0 003 11a1 1 0 11-2 0 8.97 8.97 0 012.25-5.953 1 1 0 011.412-.088z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M5 11a5 5 0 1110 0 5 5 0 01-10 0zm5-3a3 3 0 100 6 3 3 0 000-6z" clip-rule="evenodd"/></svg>
+                </div>
+                <div>
+                  <div class="font-medium text-white">Hover Highlight</div>
+                  <div class="text-sm text-gray-400">Nodes change color and scale on hover. Cursor changes to pointer.</div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <div class="w-8 h-8 bg-amber-500/20 rounded flex items-center justify-center shrink-0">
+                  <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+                </div>
+                <div>
+                  <div class="font-medium text-white">Selection Ring</div>
+                  <div class="text-sm text-gray-400">Animated ring + glow appears at selected candle position.</div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-3 bg-gray-800/50 rounded-lg">
+                <div class="w-8 h-8 bg-purple-500/20 rounded flex items-center justify-center shrink-0">
+                  <svg class="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                </div>
+                <div>
+                  <div class="font-medium text-white">Info Label</div>
+                  <div class="text-sm text-gray-400">HTML overlay shows OHLCV data for selected candle.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Complete Example -->
+          <div class="bg-gray-900 rounded-xl border border-gray-800 mt-6 overflow-hidden">
+            <div class="px-6 py-4 bg-gray-800/50 border-b border-gray-800 flex items-center justify-between">
+              <h3 class="font-bold">Complete Example</h3>
+              <button class="copy-btn px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs text-gray-300 transition" onclick="copyCode(this)">
+                Copy
+              </button>
+            </div>
+            <div class="p-6">
+              <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="font-mono text-gray-300">import { useState } from 'react';
+import { EnergyHelix } from 'energy-helix-3d';
+import { Canvas } from '@react-three/fiber';
+
+function TradingView({ candleData }) {
+  const [selected, setSelected] = useState(null);
+  const [hovered, setHovered] = useState(null);
+
+  return (
+    &lt;div className="relative"&gt;
+      {/* Info panel for selected candle */}
+      {selected !== null && (
+        &lt;div className="absolute top-4 left-4 bg-gray-900/90
+                        backdrop-blur p-4 rounded-lg border
+                        border-amber-500/30 z-10"&gt;
+          &lt;div className="text-sm text-gray-400"&gt;Selected&lt;/div&gt;
+          &lt;div className="text-lg font-bold"&gt;
+            {candleData[selected].close.toFixed(2)}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      )}
+
+      &lt;Canvas camera={{ position: [6, 4, 6], fov: 50 }}&gt;
+        &lt;ambientLight intensity={0.4} /&gt;
+        &lt;pointLight position={[10, 10, 10]} /&gt;
+
+        &lt;EnergyHelix
+          candles={candleData}
+          symbol="CL"
+          selectedIndex={selected}
+          options={{
+            showEIALayer: true,
+            showWeatherLayer: true,
+            autoRotate: true,
+          }}
+          callbacks={{
+            onCandleSelect: setSelected,
+            onCandleHover: setHovered,
+          }}
+        /&gt;
+      &lt;/Canvas&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== RECIPES TAB ==================== -->
+    <div id="recipes" class="tab-content">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold mb-2">Recipes</h2>
+        <p class="text-gray-400">Common usage patterns and examples</p>
+      </div>
+
+      <div class="grid gap-6">
+        <!-- Recipe 1: Minimal Setup -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <div class="px-6 py-4 bg-gradient-to-r from-green-500/10 to-transparent border-b border-gray-800 flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-lg flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+                Minimal Setup
+              </h3>
+              <p class="text-sm text-gray-400">Basic helix with default settings</p>
+            </div>
+            <button class="copy-btn px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs text-gray-300 transition" onclick="copyCode(this)">
+              Copy
+            </button>
+          </div>
+          <div class="p-6">
+            <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="font-mono text-gray-300">import { EnergyHelix } from 'energy-helix-3d';
+import { Canvas } from '@react-three/fiber';
+
+function App() {
+  return (
+    &lt;Canvas style={{ height: '100vh' }}&gt;
+      &lt;ambientLight /&gt;
+      &lt;pointLight position={[10, 10, 10]} /&gt;
+      &lt;EnergyHelix candles={candleData} symbol="CL" /&gt;
+    &lt;/Canvas&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- Recipe 2: With Selection -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <div class="px-6 py-4 bg-gradient-to-r from-amber-500/10 to-transparent border-b border-gray-800 flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-lg flex items-center gap-2">
+                <span class="w-2 h-2 bg-amber-400 rounded-full"></span>
+                With Selection & Callbacks
+              </h3>
+              <p class="text-sm text-gray-400">Interactive selection with external state</p>
+            </div>
+            <button class="copy-btn px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs text-gray-300 transition" onclick="copyCode(this)">
+              Copy
+            </button>
+          </div>
+          <div class="p-6">
+            <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="font-mono text-gray-300">function HelixWithSelection() {
+  const [selectedIndex, setSelectedIndex] = useState(null);
+
+  return (
+    &lt;Canvas&gt;
+      &lt;EnergyHelix
+        candles={data}
+        symbol="NG"
+        selectedIndex={selectedIndex}
+        callbacks={{
+          onCandleSelect: (i) => setSelectedIndex(i),
+        }}
+      /&gt;
+    &lt;/Canvas&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- Recipe 3: Minimal Layers -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <div class="px-6 py-4 bg-gradient-to-r from-blue-500/10 to-transparent border-b border-gray-800 flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-lg flex items-center gap-2">
+                <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                Minimal Layers
+              </h3>
+              <p class="text-sm text-gray-400">Show only essential elements</p>
+            </div>
+            <button class="copy-btn px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs text-gray-300 transition" onclick="copyCode(this)">
+              Copy
+            </button>
+          </div>
+          <div class="p-6">
+            <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="font-mono text-gray-300">&lt;EnergyHelix
+  candles={data}
+  symbol="CL"
+  options={{
+    showBuyers: true,
+    showSellers: true,
+    showConnections: false,
+    showFibonacci: false,
+    showEIALayer: false,
+    showWeatherLayer: false,
+    showVolumeProfile: false,
+    autoRotate: true,
+  }}
+/&gt;</code></pre>
+          </div>
+        </div>
+
+        <!-- Recipe 4: Full Featured -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <div class="px-6 py-4 bg-gradient-to-r from-purple-500/10 to-transparent border-b border-gray-800 flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-lg flex items-center gap-2">
+                <span class="w-2 h-2 bg-purple-400 rounded-full"></span>
+                Full Featured Dashboard
+              </h3>
+              <p class="text-sm text-gray-400">All layers with custom state management</p>
+            </div>
+            <button class="copy-btn px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs text-gray-300 transition" onclick="copyCode(this)">
+              Copy
+            </button>
+          </div>
+          <div class="p-6">
+            <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="font-mono text-gray-300">function EnergyDashboard() {
+  const [candles, setCandles] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const [symbol, setSymbol] = useState&lt;HelixSymbol&gt;('CL');
+
+  return (
+    &lt;div className="h-screen flex"&gt;
+      {/* Sidebar controls */}
+      &lt;div className="w-64 bg-gray-900 p-4"&gt;
+        &lt;select value={symbol} onChange={e => setSymbol(e.target.value)}&gt;
+          &lt;option value="CL"&gt;Crude Oil&lt;/option&gt;
+          &lt;option value="NG"&gt;Natural Gas&lt;/option&gt;
+          &lt;option value="RB"&gt;RBOB Gasoline&lt;/option&gt;
+          &lt;option value="HO"&gt;Heating Oil&lt;/option&gt;
+        &lt;/select&gt;
+
+        {selected !== null && (
+          &lt;div className="mt-4 p-3 bg-gray-800 rounded"&gt;
+            &lt;div&gt;Selected: {candles[selected]?.close}&lt;/div&gt;
+          &lt;/div&gt;
+        )}
+      &lt;/div&gt;
+
+      {/* 3D View */}
+      &lt;Canvas camera={{ position: [8, 5, 8] }}&gt;
+        &lt;ambientLight intensity={0.4} /&gt;
+        &lt;pointLight position={[15, 15, 15]} /&gt;
+        &lt;EnergyHelix
+          candles={candles}
+          symbol={symbol}
+          selectedIndex={selected}
+          options={{
+            showFibonacci: true,
+            showEIALayer: true,
+            showWeatherLayer: true,
+            showVolumeProfile: true,
+            autoRotate: true,
+          }}
+          callbacks={{
+            onCandleSelect: setSelected,
+          }}
+        /&gt;
+      &lt;/Canvas&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PLAYGROUND TAB ==================== -->
+    <div id="playground" class="tab-content">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold mb-2">Interactive Playground</h2>
+        <p class="text-gray-400">Experiment with props in real-time</p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6">
+        <!-- Controls -->
+        <div class="lg:col-span-1 space-y-4">
+          <!-- Symbol Selector -->
+          <div class="bg-gray-900 rounded-xl border border-gray-800 p-5">
+            <label class="block text-sm font-medium mb-3">Symbol</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button class="symbol-btn active px-3 py-2 bg-amber-500/20 border border-amber-500/50 rounded text-amber-400 text-sm" data-symbol="CL">
+                CL - Crude Oil
+              </button>
+              <button class="symbol-btn px-3 py-2 bg-gray-800 border border-gray-700 rounded text-gray-400 text-sm hover:bg-gray-700" data-symbol="NG">
+                NG - Natural Gas
+              </button>
+              <button class="symbol-btn px-3 py-2 bg-gray-800 border border-gray-700 rounded text-gray-400 text-sm hover:bg-gray-700" data-symbol="RB">
+                RB - Gasoline
+              </button>
+              <button class="symbol-btn px-3 py-2 bg-gray-800 border border-gray-700 rounded text-gray-400 text-sm hover:bg-gray-700" data-symbol="HO">
+                HO - Heating Oil
+              </button>
+            </div>
+          </div>
+
+          <!-- Toggle Options -->
+          <div class="bg-gray-900 rounded-xl border border-gray-800 p-5">
+            <label class="block text-sm font-medium mb-3">Display Options</label>
+            <div class="space-y-3">
+              <label class="flex items-center justify-between">
+                <span class="text-sm text-gray-300">showBuyers</span>
+                <input type="checkbox" class="toggle-input" data-option="showBuyers" checked>
+              </label>
+              <label class="flex items-center justify-between">
+                <span class="text-sm text-gray-300">showSellers</span>
+                <input type="checkbox" class="toggle-input" data-option="showSellers" checked>
+              </label>
+              <label class="flex items-center justify-between">
+                <span class="text-sm text-gray-300">showConnections</span>
+                <input type="checkbox" class="toggle-input" data-option="showConnections" checked>
+              </label>
+              <label class="flex items-center justify-between">
+                <span class="text-sm text-gray-300">showFibonacci</span>
+                <input type="checkbox" class="toggle-input" data-option="showFibonacci" checked>
+              </label>
+              <label class="flex items-center justify-between">
+                <span class="text-sm text-gray-300">showEIALayer</span>
+                <input type="checkbox" class="toggle-input" data-option="showEIALayer" checked>
+              </label>
+              <label class="flex items-center justify-between">
+                <span class="text-sm text-gray-300">showWeatherLayer</span>
+                <input type="checkbox" class="toggle-input" data-option="showWeatherLayer" checked>
+              </label>
+              <label class="flex items-center justify-between">
+                <span class="text-sm text-gray-300">showVolumeProfile</span>
+                <input type="checkbox" class="toggle-input" data-option="showVolumeProfile" checked>
+              </label>
+              <label class="flex items-center justify-between">
+                <span class="text-sm text-gray-300">autoRotate</span>
+                <input type="checkbox" class="toggle-input" data-option="autoRotate" checked>
+              </label>
+            </div>
+          </div>
+
+          <!-- Generated Code -->
+          <div class="bg-gray-900 rounded-xl border border-gray-800 p-5">
+            <div class="flex items-center justify-between mb-3">
+              <label class="text-sm font-medium">Generated Code</label>
+              <button class="copy-btn px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs text-gray-300 transition" onclick="copyCode(this)">
+                Copy
+              </button>
+            </div>
+            <pre id="generated-code" class="bg-gray-950 rounded-lg p-3 overflow-x-auto text-xs font-mono text-gray-300"></pre>
+          </div>
+        </div>
+
+        <!-- Preview Area -->
+        <div class="lg:col-span-2">
+          <div class="bg-gray-900 rounded-xl border border-gray-800 h-[600px] flex items-center justify-center">
+            <div class="text-center">
+              <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-amber-400 to-orange-600 rounded-2xl flex items-center justify-center">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-white mb-2">3D Preview</h3>
+              <p class="text-gray-400 text-sm max-w-md">
+                The interactive preview would render here in a full implementation.
+                This requires the actual library and Three.js context.
+              </p>
+              <div class="mt-4 p-4 bg-gray-800/50 rounded-lg inline-block">
+                <code class="text-amber-400 text-sm">npm run dev</code>
+                <span class="text-gray-500 text-sm ml-2">to see live preview</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PERFORMANCE TAB ==================== -->
+    <div id="performance" class="tab-content">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold mb-2">Performance Guide</h2>
+        <p class="text-gray-400">Optimize your helix visualizations</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-6">
+        <!-- Best Practices -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 p-6">
+          <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            Best Practices
+          </h3>
+          <div class="space-y-4">
+            <div class="p-3 bg-gray-800/50 rounded-lg">
+              <div class="font-medium text-amber-400 mb-1">Use Instances</div>
+              <p class="text-sm text-gray-400">BuyerNodes and SellerNodes use Three.js Instances for efficient batch rendering of up to 500 nodes each.</p>
+            </div>
+            <div class="p-3 bg-gray-800/50 rounded-lg">
+              <div class="font-medium text-amber-400 mb-1">Memoize Candle Data</div>
+              <p class="text-sm text-gray-400">Wrap candle arrays in useMemo() to prevent unnecessary recalculations.</p>
+              <pre class="mt-2 text-xs bg-gray-950 p-2 rounded font-mono">const candles = useMemo(() => processData(raw), [raw]);</pre>
+            </div>
+            <div class="p-3 bg-gray-800/50 rounded-lg">
+              <div class="font-medium text-amber-400 mb-1">Limit Candle Count</div>
+              <p class="text-sm text-gray-400">Optimal: 100-300 candles. For more, consider windowing or aggregation.</p>
+            </div>
+            <div class="p-3 bg-gray-800/50 rounded-lg">
+              <div class="font-medium text-amber-400 mb-1">Conditional Layers</div>
+              <p class="text-sm text-gray-400">Disable unused layers (showWeatherLayer, showVolumeProfile) to reduce draw calls.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Metrics -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 p-6">
+          <h3 class="text-lg font-bold mb-4">Recommended Limits</h3>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
+              <span class="text-gray-300">Candles</span>
+              <div class="flex items-center gap-2">
+                <div class="w-24 h-2 bg-gray-700 rounded-full overflow-hidden">
+                  <div class="w-1/3 h-full bg-green-400"></div>
+                </div>
+                <span class="text-green-400 font-mono text-sm">100-300</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
+              <span class="text-gray-300">Weather Particles</span>
+              <div class="flex items-center gap-2">
+                <div class="w-24 h-2 bg-gray-700 rounded-full overflow-hidden">
+                  <div class="w-1/2 h-full bg-amber-400"></div>
+                </div>
+                <span class="text-amber-400 font-mono text-sm">~500</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
+              <span class="text-gray-300">Connection Bars</span>
+              <div class="flex items-center gap-2">
+                <div class="w-24 h-2 bg-gray-700 rounded-full overflow-hidden">
+                  <div class="w-1/4 h-full bg-blue-400"></div>
+                </div>
+                <span class="text-blue-400 font-mono text-sm">~15</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg">
+              <span class="text-gray-300">Volume Rings</span>
+              <div class="flex items-center gap-2">
+                <div class="w-24 h-2 bg-gray-700 rounded-full overflow-hidden">
+                  <div class="w-1/2 h-full bg-purple-400"></div>
+                </div>
+                <span class="text-purple-400 font-mono text-sm">~60</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Animation Optimization -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 p-6">
+          <h3 class="text-lg font-bold mb-4">Animation Optimization</h3>
+          <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm"><code class="font-mono text-gray-300"><span class="text-purple-400">// PulsingEnergyCore adapts to market regime</span>
+const pulseSpeed = regimeType === 'VOLATILE' ? 3.0
+                 : regimeType === 'QUIET' ? 0.8
+                 : 1.5;
+
+<span class="text-purple-400">// VolumeHeatmap uses step-sampling</span>
+const step = Math.max(1, Math.floor(candles.length / 60));
+<span class="text-gray-500">// Only renders ~60 rings regardless of candle count</span>
+
+<span class="text-purple-400">// ConnectionBars limits to 15 max</span>
+const step = Math.max(1, Math.floor(connections.length / 15));</code></pre>
+        </div>
+
+        <!-- Memory Tips -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 p-6">
+          <h3 class="text-lg font-bold mb-4">Memory Management</h3>
+          <div class="space-y-3 text-sm text-gray-300">
+            <p>The library automatically handles:</p>
+            <ul class="list-disc list-inside space-y-2 text-gray-400">
+              <li>InstancedMesh for particles and nodes</li>
+              <li>Geometry pooling via Instances component</li>
+              <li>Cleanup of Three.js resources on unmount</li>
+              <li>Efficient BufferGeometry for curves</li>
+            </ul>
+            <div class="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+              <span class="text-amber-400 font-medium">Note:</span>
+              <span class="text-gray-400"> For datasets >1000 candles, consider implementing data windowing in your app logic.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TROUBLESHOOTING TAB ==================== -->
+    <div id="troubleshooting" class="tab-content">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold mb-2">Troubleshooting</h2>
+        <p class="text-gray-400">Common issues and solutions</p>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Issue 1 -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <button class="accordion-btn w-full px-6 py-4 flex items-center justify-between hover:bg-gray-800/50 transition" onclick="toggleAccordion(this)">
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-red-400 rounded-full"></span>
+              <span class="font-medium">Helix doesn't render / blank screen</span>
+            </div>
+            <svg class="w-5 h-5 text-gray-500 accordion-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="accordion-content hidden px-6 pb-4">
+            <div class="space-y-3 text-sm">
+              <div class="p-3 bg-gray-800/50 rounded-lg">
+                <div class="text-amber-400 font-medium mb-1">Check 1: Canvas Setup</div>
+                <p class="text-gray-400">Ensure Canvas has lights: <code class="text-gray-300">{'<ambientLight />'}</code> and <code class="text-gray-300">{'<pointLight />'}</code></p>
+              </div>
+              <div class="p-3 bg-gray-800/50 rounded-lg">
+                <div class="text-amber-400 font-medium mb-1">Check 2: Candle Data</div>
+                <p class="text-gray-400">Verify candles array is not empty and has correct structure.</p>
+              </div>
+              <div class="p-3 bg-gray-800/50 rounded-lg">
+                <div class="text-amber-400 font-medium mb-1">Check 3: Canvas Height</div>
+                <p class="text-gray-400">Set explicit height: <code class="text-gray-300">{'<Canvas style={{ height: "100vh" }}>'}</code></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Issue 2 -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <button class="accordion-btn w-full px-6 py-4 flex items-center justify-between hover:bg-gray-800/50 transition" onclick="toggleAccordion(this)">
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-amber-400 rounded-full"></span>
+              <span class="font-medium">Animation is slow / laggy</span>
+            </div>
+            <svg class="w-5 h-5 text-gray-500 accordion-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="accordion-content hidden px-6 pb-4">
+            <div class="space-y-3 text-sm">
+              <div class="p-3 bg-gray-800/50 rounded-lg">
+                <div class="text-amber-400 font-medium mb-1">Reduce Candle Count</div>
+                <p class="text-gray-400">Limit to 100-300 candles. Use windowing for larger datasets.</p>
+              </div>
+              <div class="p-3 bg-gray-800/50 rounded-lg">
+                <div class="text-amber-400 font-medium mb-1">Disable Heavy Layers</div>
+                <p class="text-gray-400">Set showWeatherLayer={false} and showVolumeProfile={false}</p>
+              </div>
+              <div class="p-3 bg-gray-800/50 rounded-lg">
+                <div class="text-amber-400 font-medium mb-1">Check GPU</div>
+                <p class="text-gray-400">Three.js requires WebGL. Check browser compatibility.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Issue 3 -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <button class="accordion-btn w-full px-6 py-4 flex items-center justify-between hover:bg-gray-800/50 transition" onclick="toggleAccordion(this)">
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+              <span class="font-medium">NaN values in position</span>
+            </div>
+            <svg class="w-5 h-5 text-gray-500 accordion-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="accordion-content hidden px-6 pb-4">
+            <div class="space-y-3 text-sm">
+              <div class="p-3 bg-gray-800/50 rounded-lg">
+                <div class="text-amber-400 font-medium mb-1">Invalid Price Data</div>
+                <p class="text-gray-400">Check for NaN/null in candle open, high, low, close values.</p>
+              </div>
+              <div class="p-3 bg-gray-800/50 rounded-lg">
+                <div class="text-amber-400 font-medium mb-1">Zero Volume</div>
+                <p class="text-gray-400">Ensure volume values are positive numbers.</p>
+              </div>
+              <div class="p-3 bg-gray-800/50 rounded-lg">
+                <div class="text-amber-400 font-medium mb-1">Single Candle</div>
+                <p class="text-gray-400">Need at least 2 candles for proper rendering.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Issue 4 -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <button class="accordion-btn w-full px-6 py-4 flex items-center justify-between hover:bg-gray-800/50 transition" onclick="toggleAccordion(this)">
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+              <span class="font-medium">Selection not working</span>
+            </div>
+            <svg class="w-5 h-5 text-gray-500 accordion-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="accordion-content hidden px-6 pb-4">
+            <div class="space-y-3 text-sm">
+              <div class="p-3 bg-gray-800/50 rounded-lg">
+                <div class="text-amber-400 font-medium mb-1">Check Callback Setup</div>
+                <p class="text-gray-400">Ensure onCandleSelect callback is provided and updates selectedIndex prop.</p>
+              </div>
+              <div class="p-3 bg-gray-800/50 rounded-lg">
+                <div class="text-amber-400 font-medium mb-1">Raycaster</div>
+                <p class="text-gray-400">Click events require proper raycasting which r3f handles automatically.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Issue 5 -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <button class="accordion-btn w-full px-6 py-4 flex items-center justify-between hover:bg-gray-800/50 transition" onclick="toggleAccordion(this)">
+            <div class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-purple-400 rounded-full"></span>
+              <span class="font-medium">TypeScript errors with symbol prop</span>
+            </div>
+            <svg class="w-5 h-5 text-gray-500 accordion-icon transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="accordion-content hidden px-6 pb-4">
+            <div class="p-3 bg-gray-800/50 rounded-lg text-sm">
+              <p class="text-gray-400 mb-2">Cast the symbol or use the HelixSymbol type:</p>
+              <pre class="text-gray-300 font-mono">import { HelixSymbol } from 'energy-helix-3d';
+
+const [symbol, setSymbol] = useState&lt;HelixSymbol&gt;('CL');</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== EXTRACTED TAB (Library Extractor Demo) ==================== -->
+    <div id="extracted" class="tab-content">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold mb-2">📦 Extracted Components</h2>
+        <p class="text-gray-400">Demonstration of Library Extractor output — reusable components categorized by Atomic Design</p>
+      </div>
+
+      <!-- Extraction Summary -->
+      <div class="bg-gradient-to-r from-amber-900/30 to-orange-900/30 rounded-xl border border-amber-800/50 p-6 mb-8">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white">Extraction Report</h3>
+            <p class="text-gray-400 text-sm">energy-helix-3d → Component Library</p>
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-4 text-center">
+          <div class="bg-gray-900/50 rounded-lg p-4">
+            <div class="text-3xl font-bold text-green-400">12</div>
+            <div class="text-xs text-gray-400">Atoms</div>
+          </div>
+          <div class="bg-gray-900/50 rounded-lg p-4">
+            <div class="text-3xl font-bold text-blue-400">6</div>
+            <div class="text-xs text-gray-400">Molecules</div>
+          </div>
+          <div class="bg-gray-900/50 rounded-lg p-4">
+            <div class="text-3xl font-bold text-purple-400">4</div>
+            <div class="text-xs text-gray-400">Organisms</div>
+          </div>
+          <div class="bg-gray-900/50 rounded-lg p-4">
+            <div class="text-3xl font-bold text-amber-400">85%</div>
+            <div class="text-xs text-gray-400">Avg Reusability</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ATOMS ==================== -->
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+            <span class="text-green-400 font-bold text-sm">A</span>
+          </div>
+          <h3 class="text-xl font-bold text-green-400">Atoms</h3>
+          <span class="text-gray-500 text-sm">— Basic building blocks, zero business logic</span>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Atom: HelixPoint -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-green-500/50 transition">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">HelixPoint</h4>
+                  <p class="text-xs text-gray-400 mt-1">3D coordinate + metadata</p>
+                </div>
+                <div class="flex gap-1">
+                  <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">Atom</span>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[95%] h-full bg-green-500 rounded-full"></div>
+                  </div>
+                  <span class="text-green-400 font-mono text-xs">95%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/types.ts:24-30</code>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">three.js</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">vector3</span>
+              </div>
+              <button class="mt-3 w-full py-2 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 text-xs rounded transition flex items-center justify-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Try in Playground
+              </button>
+            </div>
+          </div>
+
+          <!-- Atom: SymbolConfig -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-green-500/50 transition">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">SymbolConfig</h4>
+                  <p class="text-xs text-gray-400 mt-1">Color scheme for futures</p>
+                </div>
+                <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">Atom</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[100%] h-full bg-green-500 rounded-full"></div>
+                  </div>
+                  <span class="text-green-400 font-mono text-xs">100%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/types.ts:8-12</code>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">typescript</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">theme</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Atom: calculateHelixPosition -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-green-500/50 transition" data-component="helix" onclick="selectExtractCard(this, 'helix')">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">calculateHelixPosition</h4>
+                  <p class="text-xs text-gray-400 mt-1">Helix math: index → 3D coords</p>
+                </div>
+                <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">Atom</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[92%] h-full bg-green-500 rounded-full"></div>
+                  </div>
+                  <span class="text-green-400 font-mono text-xs">92%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/lib/helixMath.ts:15-28</code>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">pure-fn</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">math</span>
+              </div>
+              <button class="mt-3 w-full py-2 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 text-xs rounded transition flex items-center justify-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Try in Playground
+              </button>
+            </div>
+          </div>
+
+          <!-- Atom: GlowMaterial -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-green-500/50 transition" data-component="glow" onclick="selectExtractCard(this, 'glow')">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">GlowMaterial</h4>
+                  <p class="text-xs text-gray-400 mt-1">Emissive shader material</p>
+                </div>
+                <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">Atom</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[88%] h-full bg-green-500 rounded-full"></div>
+                  </div>
+                  <span class="text-green-400 font-mono text-xs">88%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Effects.tsx:45-67</code>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">shader</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">three.js</span>
+              </div>
+              <button class="mt-3 w-full py-2 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 text-xs rounded transition flex items-center justify-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Try in Playground
+              </button>
+            </div>
+          </div>
+
+          <!-- Atom: PulsingCore -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-green-500/50 transition" data-component="pulsing" onclick="selectExtractCard(this, 'pulsing')">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">PulsingCore</h4>
+                  <p class="text-xs text-gray-400 mt-1">Animated sphere + useFrame</p>
+                </div>
+                <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">Atom</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[85%] h-full bg-green-500 rounded-full"></div>
+                  </div>
+                  <span class="text-green-400 font-mono text-xs">85%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Effects.tsx:89-112</code>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">r3f</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">animation</span>
+              </div>
+              <button class="mt-3 w-full py-2 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 text-xs rounded transition flex items-center justify-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Try in Playground
+              </button>
+            </div>
+          </div>
+
+          <!-- Atom: TorusRing -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-green-500/50 transition" data-component="torus" onclick="selectExtractCard(this, 'torus')">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">TorusRing</h4>
+                  <p class="text-xs text-gray-400 mt-1">Configurable torus geometry</p>
+                </div>
+                <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded">Atom</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[98%] h-full bg-green-500 rounded-full"></div>
+                  </div>
+                  <span class="text-green-400 font-mono text-xs">98%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Backbone.tsx:23-35</code>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">geometry</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">parametric</span>
+              </div>
+              <button class="mt-3 w-full py-2 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 text-xs rounded transition flex items-center justify-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Try in Playground
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== MOLECULES ==================== -->
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+            <span class="text-blue-400 font-bold text-sm">M</span>
+          </div>
+          <h3 class="text-xl font-bold text-blue-400">Molecules</h3>
+          <span class="text-gray-500 text-sm">— Composed atoms, minimal business logic</span>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Molecule: BuyerNodes -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-blue-500/50 transition">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">BuyerNodes</h4>
+                  <p class="text-xs text-gray-400 mt-1">Instanced spheres + interaction</p>
+                </div>
+                <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs rounded">Molecule</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[78%] h-full bg-blue-500 rounded-full"></div>
+                  </div>
+                  <span class="text-blue-400 font-mono text-xs">78%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Nodes.tsx:12-89</code>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Uses:</span>
+                <span class="text-gray-300 ml-1">HelixPoint, GlowMaterial</span>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">instancedMesh</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">raycast</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Molecule: SelectionRing -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-blue-500/50 transition">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">SelectionRing</h4>
+                  <p class="text-xs text-gray-400 mt-1">Torus + glow + beam animation</p>
+                </div>
+                <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs rounded">Molecule</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[82%] h-full bg-blue-500 rounded-full"></div>
+                  </div>
+                  <span class="text-blue-400 font-mono text-xs">82%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Selection.tsx:8-67</code>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Uses:</span>
+                <span class="text-gray-300 ml-1">TorusRing, GlowMaterial</span>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">animation</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">selection</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Molecule: VolumeHeatmap -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-blue-500/50 transition">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">VolumeHeatmap</h4>
+                  <p class="text-xs text-gray-400 mt-1">Multi-ring volume indicator</p>
+                </div>
+                <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs rounded">Molecule</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[75%] h-full bg-blue-500 rounded-full"></div>
+                  </div>
+                  <span class="text-blue-400 font-mono text-xs">75%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Effects.tsx:134-189</code>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Uses:</span>
+                <span class="text-gray-300 ml-1">TorusRing[]</span>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">volume</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">heatmap</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Molecule: FibonacciLevels -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-blue-500/50 transition">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">FibonacciLevels</h4>
+                  <p class="text-xs text-gray-400 mt-1">0-100% retracement planes</p>
+                </div>
+                <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs rounded">Molecule</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[80%] h-full bg-blue-500 rounded-full"></div>
+                  </div>
+                  <span class="text-blue-400 font-mono text-xs">80%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Indicators.tsx:45-98</code>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">trading</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">levels</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Molecule: ConnectingArcs -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-blue-500/50 transition">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">ConnectingArcs</h4>
+                  <p class="text-xs text-gray-400 mt-1">Bezier curves between levels</p>
+                </div>
+                <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs rounded">Molecule</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[72%] h-full bg-blue-500 rounded-full"></div>
+                  </div>
+                  <span class="text-blue-400 font-mono text-xs">72%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Effects.tsx:200-245</code>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">bezier</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">lines</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Molecule: SelectedLabel -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-blue-500/50 transition">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">SelectedLabel</h4>
+                  <p class="text-xs text-gray-400 mt-1">HTML overlay OHLCV display</p>
+                </div>
+                <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs rounded">Molecule</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[88%] h-full bg-blue-500 rounded-full"></div>
+                  </div>
+                  <span class="text-blue-400 font-mono text-xs">88%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Selection.tsx:70-112</code>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">drei</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">Html</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ORGANISMS ==================== -->
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+            <span class="text-purple-400 font-bold text-sm">O</span>
+          </div>
+          <h3 class="text-xl font-bold text-purple-400">Organisms</h3>
+          <span class="text-gray-500 text-sm">— Complex compositions, some business context</span>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-4">
+          <!-- Organism: SpiralBackbone -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-purple-500/50 transition">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">SpiralBackbone</h4>
+                  <p class="text-xs text-gray-400 mt-1">Twin helix tubes + connection bars</p>
+                </div>
+                <span class="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded">Organism</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[68%] h-full bg-purple-500 rounded-full"></div>
+                  </div>
+                  <span class="text-purple-400 font-mono text-xs">68%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Backbone.tsx</code>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Uses:</span>
+                <span class="text-gray-300 ml-1">TorusRing, ConnectionBars, calculateHelixPosition</span>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">helix</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">3d-structure</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">tube</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Organism: NodeSystem -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-purple-500/50 transition">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">NodeSystem</h4>
+                  <p class="text-xs text-gray-400 mt-1">BuyerNodes + SellerNodes + interaction</p>
+                </div>
+                <span class="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded">Organism</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[62%] h-full bg-purple-500 rounded-full"></div>
+                  </div>
+                  <span class="text-purple-400 font-mono text-xs">62%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Nodes.tsx</code>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Uses:</span>
+                <span class="text-gray-300 ml-1">BuyerNodes, SellerNodes, SelectionRing</span>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">instancing</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">raycast</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">click</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Organism: EffectsLayer -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-purple-500/50 transition">
+            <div class="p-4 border-b border-gray-800">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">EffectsLayer</h4>
+                  <p class="text-xs text-gray-400 mt-1">Core + Glow + Arcs + Heatmap</p>
+                </div>
+                <span class="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded">Organism</span>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[58%] h-full bg-purple-500 rounded-full"></div>
+                  </div>
+                  <span class="text-purple-400 font-mono text-xs">58%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/Effects.tsx</code>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Uses:</span>
+                <span class="text-gray-300 ml-1">PulsingCore, VolumeHeatmap, ConnectingArcs, AmbientGlow</span>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">effects</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">visual</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">animation</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Organism: EnergyHelix (Main) -->
+          <div class="extract-card bg-gray-900 rounded-xl border border-amber-800/50 overflow-hidden hover:border-amber-500/50 transition">
+            <div class="p-4 border-b border-gray-800 bg-amber-900/10">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h4 class="font-bold text-white">EnergyHelix</h4>
+                  <p class="text-xs text-gray-400 mt-1">Root orchestrator component</p>
+                </div>
+                <div class="flex gap-1">
+                  <span class="px-2 py-0.5 bg-amber-500/20 text-amber-400 text-xs rounded">Main</span>
+                  <span class="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded">Organism</span>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Reusability</span>
+                <div class="flex items-center gap-2">
+                  <div class="w-20 h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="w-[45%] h-full bg-amber-500 rounded-full"></div>
+                  </div>
+                  <span class="text-amber-400 font-mono text-xs">45%</span>
+                </div>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Source:</span>
+                <code class="text-gray-300 ml-1">src/EnergyHelix.tsx</code>
+              </div>
+              <div class="text-xs">
+                <span class="text-gray-500">Uses:</span>
+                <span class="text-gray-300 ml-1">SpiralBackbone, NodeSystem, EffectsLayer, SelectionRing, Indicators, Markers</span>
+              </div>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">orchestrator</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">root</span>
+                <span class="px-1.5 py-0.5 bg-gray-800 text-gray-400 text-xs rounded">business-logic</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== INTERACTIVE PLAYGROUND ==================== -->
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-8 bg-pink-500/20 rounded-lg flex items-center justify-center">
+            <span class="text-pink-400">🎮</span>
+          </div>
+          <h3 class="text-xl font-bold text-pink-400">Interactive Playground</h3>
+          <span class="text-gray-500 text-sm">— Live preview, edit code, tweak props</span>
+        </div>
+
+        <!-- Component Selector -->
+        <div class="flex gap-2 mb-4 overflow-x-auto pb-2">
+          <button class="component-selector active px-4 py-2 bg-pink-500/20 border border-pink-500/50 text-pink-400 rounded-lg text-sm font-medium transition hover:bg-pink-500/30 whitespace-nowrap" data-component="torus">
+            TorusRing
+          </button>
+          <button class="component-selector px-4 py-2 bg-gray-800 border border-gray-700 text-gray-400 rounded-lg text-sm font-medium transition hover:bg-gray-700 whitespace-nowrap" data-component="pulsing">
+            PulsingCore
+          </button>
+          <button class="component-selector px-4 py-2 bg-gray-800 border border-gray-700 text-gray-400 rounded-lg text-sm font-medium transition hover:bg-gray-700 whitespace-nowrap" data-component="glow">
+            GlowMaterial
+          </button>
+          <button class="component-selector px-4 py-2 bg-gray-800 border border-gray-700 text-gray-400 rounded-lg text-sm font-medium transition hover:bg-gray-700 whitespace-nowrap" data-component="helix">
+            HelixMath
+          </button>
+        </div>
+
+        <!-- Playground Container -->
+        <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <!-- Tabs -->
+          <div class="flex border-b border-gray-800">
+            <button class="playground-tab active px-6 py-3 text-sm font-medium text-pink-400 border-b-2 border-pink-400 bg-pink-500/10" data-tab="preview">
+              🖼️ Preview
+            </button>
+            <button class="playground-tab px-6 py-3 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-200 transition" data-tab="code">
+              📝 Code
+            </button>
+            <button class="playground-tab px-6 py-3 text-sm font-medium text-gray-400 border-b-2 border-transparent hover:text-gray-200 transition" data-tab="props">
+              ⚙️ Props
+            </button>
+            <div class="ml-auto flex items-center gap-2 px-4">
+              <button onclick="copyPlaygroundCode()" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded text-xs font-medium transition flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                </svg>
+                Copy
+              </button>
+              <button onclick="resetPlayground()" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded text-xs font-medium transition">
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Preview Panel -->
+          <div class="playground-content active" id="preview-panel" style="display: block;">
+            <div class="grid lg:grid-cols-2 gap-0 divide-x divide-gray-800">
+              <!-- Canvas Preview -->
+              <div class="bg-gray-950 min-h-[400px] flex items-center justify-center relative">
+                <div id="preview-canvas" class="w-full h-full flex items-center justify-center">
+                  <!-- TorusRing Preview (CSS) -->
+                  <div id="preview-torus" class="preview-element">
+                    <div class="relative">
+                      <div class="w-32 h-32 rounded-full border-4 border-amber-400/60 animate-spin" style="animation-duration: 8s;"></div>
+                      <div class="absolute inset-4 w-24 h-24 rounded-full border-2 border-amber-500/40 animate-spin" style="animation-duration: 6s; animation-direction: reverse;"></div>
+                      <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full shadow-lg shadow-amber-500/30"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- PulsingCore Preview -->
+                  <div id="preview-pulsing" class="preview-element hidden">
+                    <div class="relative">
+                      <div class="w-24 h-24 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full animate-pulse shadow-2xl shadow-cyan-500/50"></div>
+                      <div class="absolute inset-0 w-24 h-24 bg-cyan-400/30 rounded-full animate-ping"></div>
+                    </div>
+                  </div>
+                  <!-- GlowMaterial Preview -->
+                  <div id="preview-glow" class="preview-element hidden">
+                    <div class="relative">
+                      <div class="w-32 h-32 bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-2xl shadow-2xl shadow-purple-500/50 blur-[1px]"></div>
+                      <div class="absolute inset-0 w-32 h-32 bg-gradient-to-br from-purple-500/50 to-transparent rounded-2xl blur-xl"></div>
+                    </div>
+                  </div>
+                  <!-- HelixMath Preview -->
+                  <div id="preview-helix" class="preview-element hidden">
+                    <div class="relative w-48 h-48">
+                      <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <path d="M10,50 Q30,10 50,50 T90,50" stroke="#10B981" stroke-width="2" fill="none" class="animate-pulse"/>
+                        <circle cx="10" cy="50" r="4" fill="#10B981"/>
+                        <circle cx="50" cy="50" r="4" fill="#F59E0B"/>
+                        <circle cx="90" cy="50" r="4" fill="#EF4444"/>
+                        <text x="10" y="70" fill="#6B7280" font-size="8">θ=0</text>
+                        <text x="45" y="70" fill="#6B7280" font-size="8">θ=π</text>
+                        <text x="85" y="70" fill="#6B7280" font-size="8">θ=2π</text>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <!-- Preview Info Overlay -->
+                <div class="absolute bottom-3 left-3 text-xs text-gray-500 bg-gray-900/80 px-2 py-1 rounded">
+                  <span id="preview-fps">60 FPS</span> • <span id="preview-props">radius: 1.0, tube: 0.3</span>
+                </div>
+              </div>
+
+              <!-- Live Props Controls -->
+              <div class="p-6 space-y-6 bg-gray-900">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-sm font-semibold text-white">Live Controls</h4>
+                  <span class="text-xs text-gray-500">Changes update instantly</span>
+                </div>
+
+                <!-- TorusRing Controls -->
+                <div id="controls-torus" class="controls-panel space-y-4">
+                  <div>
+                    <label class="flex justify-between text-sm mb-2">
+                      <span class="text-gray-400">Radius</span>
+                      <span class="text-amber-400 font-mono" id="val-radius">1.0</span>
+                    </label>
+                    <input type="range" min="0.5" max="2" step="0.1" value="1.0" class="w-full accent-amber-500" data-prop="radius">
+                  </div>
+                  <div>
+                    <label class="flex justify-between text-sm mb-2">
+                      <span class="text-gray-400">Tube Width</span>
+                      <span class="text-amber-400 font-mono" id="val-tube">0.3</span>
+                    </label>
+                    <input type="range" min="0.1" max="0.8" step="0.05" value="0.3" class="w-full accent-amber-500" data-prop="tube">
+                  </div>
+                  <div>
+                    <label class="flex justify-between text-sm mb-2">
+                      <span class="text-gray-400">Color</span>
+                      <span class="text-amber-400 font-mono" id="val-color">#F59E0B</span>
+                    </label>
+                    <input type="color" value="#F59E0B" class="w-full h-8 rounded cursor-pointer" data-prop="color">
+                  </div>
+                  <div>
+                    <label class="flex items-center gap-3 text-sm">
+                      <input type="checkbox" checked class="accent-amber-500 w-4 h-4" data-prop="animated">
+                      <span class="text-gray-400">Animated Rotation</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- PulsingCore Controls -->
+                <div id="controls-pulsing" class="controls-panel hidden space-y-4">
+                  <div>
+                    <label class="flex justify-between text-sm mb-2">
+                      <span class="text-gray-400">Size</span>
+                      <span class="text-cyan-400 font-mono" id="val-size">1.0</span>
+                    </label>
+                    <input type="range" min="0.5" max="2" step="0.1" value="1.0" class="w-full accent-cyan-500" data-prop="size">
+                  </div>
+                  <div>
+                    <label class="flex justify-between text-sm mb-2">
+                      <span class="text-gray-400">Pulse Speed</span>
+                      <span class="text-cyan-400 font-mono" id="val-speed">1.0x</span>
+                    </label>
+                    <input type="range" min="0.5" max="3" step="0.5" value="1" class="w-full accent-cyan-500" data-prop="speed">
+                  </div>
+                  <div>
+                    <label class="flex justify-between text-sm mb-2">
+                      <span class="text-gray-400">Regime</span>
+                    </label>
+                    <select class="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-gray-300 text-sm" data-prop="regime">
+                      <option value="quiet">Quiet (0.5x)</option>
+                      <option value="ranging" selected>Ranging (1x)</option>
+                      <option value="volatile">Volatile (2x)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- GlowMaterial Controls -->
+                <div id="controls-glow" class="controls-panel hidden space-y-4">
+                  <div>
+                    <label class="flex justify-between text-sm mb-2">
+                      <span class="text-gray-400">Intensity</span>
+                      <span class="text-purple-400 font-mono" id="val-intensity">1.0</span>
+                    </label>
+                    <input type="range" min="0.1" max="3" step="0.1" value="1.0" class="w-full accent-purple-500" data-prop="intensity">
+                  </div>
+                  <div>
+                    <label class="flex justify-between text-sm mb-2">
+                      <span class="text-gray-400">Base Color</span>
+                    </label>
+                    <input type="color" value="#8B5CF6" class="w-full h-8 rounded cursor-pointer" data-prop="baseColor">
+                  </div>
+                  <div>
+                    <label class="flex items-center gap-3 text-sm">
+                      <input type="checkbox" checked class="accent-purple-500 w-4 h-4" data-prop="blur">
+                      <span class="text-gray-400">Enable Glow Blur</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- HelixMath Controls -->
+                <div id="controls-helix" class="controls-panel hidden space-y-4">
+                  <div>
+                    <label class="flex justify-between text-sm mb-2">
+                      <span class="text-gray-400">Turns</span>
+                      <span class="text-emerald-400 font-mono" id="val-turns">3</span>
+                    </label>
+                    <input type="range" min="1" max="8" step="1" value="3" class="w-full accent-emerald-500" data-prop="turns">
+                  </div>
+                  <div>
+                    <label class="flex justify-between text-sm mb-2">
+                      <span class="text-gray-400">Radius</span>
+                      <span class="text-emerald-400 font-mono" id="val-hradius">1.0</span>
+                    </label>
+                    <input type="range" min="0.5" max="3" step="0.1" value="1.0" class="w-full accent-emerald-500" data-prop="hradius">
+                  </div>
+                  <div>
+                    <label class="flex justify-between text-sm mb-2">
+                      <span class="text-gray-400">Points</span>
+                      <span class="text-emerald-400 font-mono" id="val-points">100</span>
+                    </label>
+                    <input type="range" min="20" max="200" step="10" value="100" class="w-full accent-emerald-500" data-prop="points">
+                  </div>
+                </div>
+
+                <!-- Output Code Snippet -->
+                <div class="pt-4 border-t border-gray-800">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs text-gray-500">Generated Usage</span>
+                  </div>
+                  <pre class="bg-gray-950 rounded-lg p-3 text-xs overflow-x-auto"><code id="output-code" class="text-gray-300 font-mono">&lt;TorusRing
+  radius={1.0}
+  tube={0.3}
+  color="#F59E0B"
+  animated={true}
+/&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Code Panel -->
+          <div class="playground-content hidden p-6" id="code-panel">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex gap-2">
+                <button class="code-file active px-3 py-1 bg-pink-500/20 text-pink-400 rounded text-xs" data-file="component">Component.tsx</button>
+                <button class="code-file px-3 py-1 bg-gray-800 text-gray-400 rounded text-xs hover:bg-gray-700" data-file="types">types.ts</button>
+                <button class="code-file px-3 py-1 bg-gray-800 text-gray-400 rounded text-xs hover:bg-gray-700" data-file="usage">Usage.tsx</button>
+              </div>
+            </div>
+            <div class="relative">
+              <pre class="bg-gray-950 rounded-lg p-4 overflow-x-auto text-sm max-h-[500px]"><code id="code-content" class="font-mono text-gray-300 text-sm"><span class="text-purple-400">import</span> { useMemo } <span class="text-purple-400">from</span> <span class="text-green-400">'react'</span>;
+<span class="text-purple-400">import</span> { TorusGeometry, MeshBasicMaterial, Mesh } <span class="text-purple-400">from</span> <span class="text-green-400">'three'</span>;
+
+<span class="text-purple-400">interface</span> <span class="text-blue-400">TorusRingProps</span> {
+  radius?: <span class="text-cyan-400">number</span>;
+  tube?: <span class="text-cyan-400">number</span>;
+  color?: <span class="text-cyan-400">string</span>;
+  animated?: <span class="text-cyan-400">boolean</span>;
+}
+
+<span class="text-purple-400">export function</span> <span class="text-yellow-400">TorusRing</span>({ 
+  radius = <span class="text-amber-400">1.0</span>, 
+  tube = <span class="text-amber-400">0.3</span>, 
+  color = <span class="text-green-400">'#F59E0B'</span>,
+  animated = <span class="text-cyan-400">true</span>
+}: TorusRingProps) {
+  
+  <span class="text-purple-400">const</span> geometry = <span class="text-purple-400">useMemo</span>(() => {
+    <span class="text-purple-400">return new</span> TorusGeometry(radius, tube, <span class="text-amber-400">16</span>, <span class="text-amber-400">100</span>);
+  }, [radius, tube]);
+
+  <span class="text-purple-400">return</span> (
+    &lt;<span class="text-blue-400">mesh</span> geometry={geometry}&gt;
+      &lt;<span class="text-blue-400">meshBasicMaterial</span> 
+        color={color} 
+        transparent
+        opacity={<span class="text-amber-400">0.8</span>}
+      /&gt;
+    &lt;/<span class="text-blue-400">mesh</span>&gt;
+  );
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- Props Panel -->
+          <div class="playground-content hidden p-6" id="props-panel">
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-gray-800">
+                    <th class="text-left py-3 px-4 text-gray-400 font-medium">Prop</th>
+                    <th class="text-left py-3 px-4 text-gray-400 font-medium">Type</th>
+                    <th class="text-left py-3 px-4 text-gray-400 font-medium">Default</th>
+                    <th class="text-left py-3 px-4 text-gray-400 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-800" id="props-table">
+                  <tr class="hover:bg-gray-800/50">
+                    <td class="py-3 px-4"><code class="text-amber-400">radius</code></td>
+                    <td class="py-3 px-4"><code class="text-blue-400">number</code></td>
+                    <td class="py-3 px-4"><code class="text-green-400">1.0</code></td>
+                    <td class="py-3 px-4 text-gray-400">Radius of the torus ring</td>
+                  </tr>
+                  <tr class="hover:bg-gray-800/50">
+                    <td class="py-3 px-4"><code class="text-amber-400">tube</code></td>
+                    <td class="py-3 px-4"><code class="text-blue-400">number</code></td>
+                    <td class="py-3 px-4"><code class="text-green-400">0.3</code></td>
+                    <td class="py-3 px-4 text-gray-400">Tube radius (thickness)</td>
+                  </tr>
+                  <tr class="hover:bg-gray-800/50">
+                    <td class="py-3 px-4"><code class="text-amber-400">color</code></td>
+                    <td class="py-3 px-4"><code class="text-blue-400">string</code></td>
+                    <td class="py-3 px-4"><code class="text-green-400">'#F59E0B'</code></td>
+                    <td class="py-3 px-4 text-gray-400">CSS color string</td>
+                  </tr>
+                  <tr class="hover:bg-gray-800/50">
+                    <td class="py-3 px-4"><code class="text-amber-400">animated</code></td>
+                    <td class="py-3 px-4"><code class="text-blue-400">boolean</code></td>
+                    <td class="py-3 px-4"><code class="text-green-400">true</code></td>
+                    <td class="py-3 px-4 text-gray-400">Enable auto-rotation animation</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Dependency Info -->
+            <div class="mt-6 p-4 bg-gray-800/50 rounded-lg">
+              <h4 class="text-sm font-semibold text-white mb-3">Dependencies</h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded font-mono">three</span>
+                <span class="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded font-mono">@react-three/fiber</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== EXTRACTION METADATA ==================== -->
+      <div class="bg-gray-900 rounded-xl border border-gray-800 p-6">
+        <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          Extraction Metadata
+        </h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-sm font-semibold text-gray-300 mb-2">Project Info</h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-500">Source Project</span>
+                <code class="text-gray-300">energy-helix-3d</code>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Repository</span>
+                <a href="https://github.com/stsgs1980/energy-helix-3d" class="text-blue-400 hover:underline">github.com/stsgs1980/energy-helix-3d</a>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Extracted At</span>
+                <span class="text-gray-300">2025-01-16T10:30:00Z</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Commit</span>
+                <code class="text-gray-300">a1b2c3d</code>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-sm font-semibold text-gray-300 mb-2">Dependencies</h4>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded">react ^18.0</span>
+              <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded">three ^0.160</span>
+              <span class="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded">@react-three/fiber ^8.0</span>
+              <span class="px-2 py-1 bg-pink-500/20 text-pink-400 text-xs rounded">@react-three/drei ^9.0</span>
+              <span class="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs rounded">typescript ^5.0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 border-t border-gray-800 mt-12">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-gray-400 text-sm">
+          EnergyHelix 3D Reference Guide
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="https://github.com/stsgs1980/energy-helix-3d" target="_blank" class="text-gray-400 hover:text-white transition text-sm">
+            GitHub
+          </a>
+          <a href="https://www.npmjs.com/package/energy-helix-3d" target="_blank" class="text-gray-400 hover:text-white transition text-sm">
+            NPM
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Copy code functionality
+    function copyCode(btn) {
+      const code = btn.closest('.relative, .bg-gray-900')?.querySelector('code')?.innerText ||
+                   btn.previousElementSibling?.innerText || '';
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // Accordion toggle
+    function toggleAccordion(btn) {
+      const content = btn.nextElementSibling;
+      const icon = btn.querySelector('.accordion-icon');
+      content.classList.toggle('hidden');
+      icon.style.transform = content.classList.contains('hidden') ? '' : 'rotate(180deg)';
+    }
+
+    // Playground - Update generated code
+    function updateGeneratedCode() {
+      const symbol = document.querySelector('.symbol-btn.active')?.dataset.symbol || 'CL';
+      const options = {};
+      document.querySelectorAll('.toggle-input').forEach(input => {
+        options[input.dataset.option] = input.checked;
+      });
+
+      const code = `<EnergyHelix
+  candles={candleData}
+  symbol="${symbol}"
+  options={${JSON.stringify(options, null, 4).split('\n').join('\n  ')}}
+/>`;
+
+      document.getElementById('generated-code').textContent = code;
+    }
+
+    // Playground - Symbol buttons
+    document.querySelectorAll('.symbol-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.symbol-btn').forEach(b => {
+          b.classList.remove('active', 'bg-amber-500/20', 'border-amber-500/50', 'text-amber-400');
+          b.classList.add('bg-gray-800', 'border-gray-700', 'text-gray-400');
+        });
+        btn.classList.add('active', 'bg-amber-500/20', 'border-amber-500/50', 'text-amber-400');
+        btn.classList.remove('bg-gray-800', 'border-gray-700', 'text-gray-400');
+        updateGeneratedCode();
+      });
+    });
+
+    // Playground - Toggle inputs
+    document.querySelectorAll('.toggle-input').forEach(input => {
+      input.addEventListener('change', updateGeneratedCode);
+    });
+
+    // Initialize generated code
+    updateGeneratedCode();
+
+    // ==================== INTERACTIVE PLAYGROUND ====================
+    
+    // Component state
+    const playgroundState = {
+      currentComponent: 'torus',
+      torus: { radius: 1.0, tube: 0.3, color: '#F59E0B', animated: true },
+      pulsing: { size: 1.0, speed: 1, regime: 'ranging' },
+      glow: { intensity: 1.0, baseColor: '#8B5CF6', blur: true },
+      helix: { turns: 3, hradius: 1.0, points: 100 }
+    };
+
+    // Component selector
+    document.querySelectorAll('.component-selector').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update buttons
+        document.querySelectorAll('.component-selector').forEach(b => {
+          b.classList.remove('active', 'bg-pink-500/20', 'border-pink-500/50', 'text-pink-400');
+          b.classList.add('bg-gray-800', 'border-gray-700', 'text-gray-400');
+        });
+        btn.classList.add('active', 'bg-pink-500/20', 'border-pink-500/50', 'text-pink-400');
+        btn.classList.remove('bg-gray-800', 'border-gray-700', 'text-gray-400');
+
+        // Show/hide preview elements
+        const component = btn.dataset.component;
+        playgroundState.currentComponent = component;
+        
+        document.querySelectorAll('.preview-element').forEach(el => el.classList.add('hidden'));
+        document.getElementById(`preview-${component}`)?.classList.remove('hidden');
+        
+        // Show/hide controls
+        document.querySelectorAll('.controls-panel').forEach(el => el.classList.add('hidden'));
+        document.getElementById(`controls-${component}`)?.classList.remove('hidden');
+
+        // Update output code
+        updateOutputCode();
+      });
+    });
+
+    // Playground tabs
+    document.querySelectorAll('.playground-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.playground-tab').forEach(t => {
+          t.classList.remove('active', 'text-pink-400', 'border-pink-400', 'bg-pink-500/10');
+          t.classList.add('text-gray-400', 'border-transparent');
+        });
+        tab.classList.add('active', 'text-pink-400', 'border-pink-400', 'bg-pink-500/10');
+        tab.classList.remove('text-gray-400', 'border-transparent');
+
+        const tabName = tab.dataset.tab;
+        document.querySelectorAll('.playground-content').forEach(c => {
+          c.classList.add('hidden');
+          c.classList.remove('active');
+        });
+        const activePanel = document.getElementById(`${tabName}-panel`);
+        activePanel.classList.remove('hidden');
+        activePanel.classList.add('active');
+      });
+    });
+
+    // Range input handlers
+    document.querySelectorAll('#controls-torus input[type="range"]').forEach(input => {
+      input.addEventListener('input', (e) => {
+        const prop = e.target.dataset.prop;
+        const value = parseFloat(e.target.value);
+        playgroundState.torus[prop] = value;
+        document.getElementById(`val-${prop}`).textContent = value.toFixed(1);
+        updateOutputCode();
+        updatePreviewInfo();
+      });
+    });
+
+    document.querySelectorAll('#controls-torus input[type="color"]').forEach(input => {
+      input.addEventListener('input', (e) => {
+        playgroundState.torus.color = e.target.value;
+        document.getElementById('val-color').textContent = e.target.value;
+        updateOutputCode();
+      });
+    });
+
+    document.querySelectorAll('#controls-torus input[type="checkbox"]').forEach(input => {
+      input.addEventListener('change', (e) => {
+        playgroundState.torus.animated = e.target.checked;
+        updateOutputCode();
+      });
+    });
+
+    // Pulsing controls
+    document.querySelectorAll('#controls-pulsing input[type="range"]').forEach(input => {
+      input.addEventListener('input', (e) => {
+        const prop = e.target.dataset.prop;
+        const value = parseFloat(e.target.value);
+        playgroundState.pulsing[prop] = value;
+        document.getElementById(`val-${prop}`).textContent = prop === 'speed' ? `${value.toFixed(1)}x` : value.toFixed(1);
+        updateOutputCode();
+      });
+    });
+
+    document.querySelectorAll('#controls-pulsing select').forEach(select => {
+      select.addEventListener('change', (e) => {
+        playgroundState.pulsing.regime = e.target.value;
+        updateOutputCode();
+      });
+    });
+
+    // Glow controls
+    document.querySelectorAll('#controls-glow input[type="range"]').forEach(input => {
+      input.addEventListener('input', (e) => {
+        const prop = e.target.dataset.prop;
+        const value = parseFloat(e.target.value);
+        playgroundState.glow[prop] = value;
+        document.getElementById(`val-${prop}`).textContent = value.toFixed(1);
+        updateOutputCode();
+      });
+    });
+
+    // Helix controls
+    document.querySelectorAll('#controls-helix input[type="range"]').forEach(input => {
+      input.addEventListener('input', (e) => {
+        const prop = e.target.dataset.prop;
+        const value = parseFloat(e.target.value);
+        playgroundState.helix[prop] = value;
+        document.getElementById(`val-${prop}`).textContent = Math.round(value);
+        updateOutputCode();
+      });
+    });
+
+    // Update output code
+    function updateOutputCode() {
+      const component = playgroundState.currentComponent;
+      let code = '';
+      
+      if (component === 'torus') {
+        const s = playgroundState.torus;
+        code = `<TorusRing
+  radius={${s.radius.toFixed(1)}}
+  tube={${s.tube.toFixed(2)}}
+  color="${s.color}"
+  animated={${s.animated}}
+/>`;
+      } else if (component === 'pulsing') {
+        const s = playgroundState.pulsing;
+        code = `<PulsingCore
+  size={${s.size.toFixed(1)}}
+  speed={${s.speed.toFixed(1)}}
+  regime="${s.regime}"
+/>`;
+      } else if (component === 'glow') {
+        const s = playgroundState.glow;
+        code = `<GlowMaterial
+  intensity={${s.intensity.toFixed(1)}}
+  baseColor="${s.baseColor}"
+  blur={${s.blur}}
+/>`;
+      } else if (component === 'helix') {
+        const s = playgroundState.helix;
+        code = `const points = calculateHelixPoints({
+  turns: ${s.turns},
+  radius: ${s.hradius.toFixed(1)},
+  pointCount: ${s.points}
+});`;
+      }
+      
+      document.getElementById('output-code').textContent = code;
+    }
+
+    // Update preview info
+    function updatePreviewInfo() {
+      const s = playgroundState.torus;
+      document.getElementById('preview-props').textContent = `radius: ${s.radius.toFixed(1)}, tube: ${s.tube.toFixed(2)}`;
+    }
+
+    // Copy playground code
+    function copyPlaygroundCode() {
+      const code = document.getElementById('output-code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = event.target.closest('button');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="text-green-400">✓ Copied!</span>';
+        setTimeout(() => btn.innerHTML = originalText, 1500);
+      });
+    }
+
+    // Reset playground
+    function resetPlayground() {
+      playgroundState.torus = { radius: 1.0, tube: 0.3, color: '#F59E0B', animated: true };
+      playgroundState.pulsing = { size: 1.0, speed: 1, regime: 'ranging' };
+      playgroundState.glow = { intensity: 1.0, baseColor: '#8B5CF6', blur: true };
+      playgroundState.helix = { turns: 3, hradius: 1.0, points: 100 };
+      
+      // Reset UI
+      document.querySelectorAll('#controls-torus input[type="range"]').forEach(input => {
+        const prop = input.dataset.prop;
+        input.value = playgroundState.torus[prop];
+        document.getElementById(`val-${prop}`).textContent = playgroundState.torus[prop].toFixed(1);
+      });
+      
+      updateOutputCode();
+      updatePreviewInfo();
+    }
+
+    // Simulate FPS counter
+    setInterval(() => {
+      const fps = 58 + Math.floor(Math.random() * 4);
+      document.getElementById('preview-fps').textContent = `${fps} FPS`;
+    }, 1000);
+
+    // ===== EXTRACT CARD CLICK HANDLER (Interactive Playground) =====
+    function selectExtractCard(card, component) {
+      // Remove selected from all cards
+      document.querySelectorAll('.extract-card').forEach(c => c.classList.remove('selected'));
+      // Add selected to clicked card
+      card.classList.add('selected');
+
+      // Switch playground to component
+      switchPlaygroundComponent(component);
+
+      // Scroll to playground
+      const playground = document.querySelector('.bg-pink-500\\/20')?.closest('.mb-10');
+      if (playground) {
+        playground.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function switchPlaygroundComponent(component) {
+      // Update selector buttons
+      document.querySelectorAll('.component-selector').forEach(btn => {
+        if (btn.dataset.component === component) {
+          btn.classList.add('active');
+          btn.classList.remove('bg-gray-800', 'border-gray-700', 'text-gray-400');
+          btn.classList.add('bg-pink-500/20', 'border-pink-500/50', 'text-pink-400');
+        } else {
+          btn.classList.remove('active');
+          btn.classList.add('bg-gray-800', 'border-gray-700', 'text-gray-400');
+          btn.classList.remove('bg-pink-500/20', 'border-pink-500/50', 'text-pink-400');
+        }
+      });
+
+      // Update state
+      playgroundState.currentComponent = component;
+
+      // Switch to Preview tab first
+      document.querySelectorAll('.playground-content').forEach(c => {
+        c.classList.add('hidden');
+        c.classList.remove('active');
+      });
+      const previewPanel = document.getElementById('preview-panel');
+      previewPanel.classList.remove('hidden');
+      previewPanel.classList.add('active');
+
+      // Update playground tabs UI
+      document.querySelectorAll('.playground-tab').forEach(t => {
+        t.classList.remove('active', 'text-pink-400', 'border-pink-400', 'bg-pink-500/10');
+        t.classList.add('text-gray-400', 'border-transparent');
+      });
+      const previewTab = document.querySelector('.playground-tab[data-tab="preview"]');
+      if (previewTab) {
+        previewTab.classList.add('active', 'text-pink-400', 'border-pink-400', 'bg-pink-500/10');
+        previewTab.classList.remove('text-gray-400', 'border-transparent');
+      }
+
+      // Show/hide preview elements
+      document.querySelectorAll('.preview-element').forEach(el => el.classList.add('hidden'));
+      const previewEl = document.getElementById(`preview-${component}`);
+      if (previewEl) previewEl.classList.remove('hidden');
+
+      // Show/hide control panels
+      document.querySelectorAll('.controls-panel').forEach(el => el.classList.add('hidden'));
+      const controlsEl = document.getElementById(`controls-${component}`);
+      if (controlsEl) controlsEl.classList.remove('hidden');
+
+      // Update output code
+      updateOutputCode();
+    }
+  </script>
+</body>
+</html>
