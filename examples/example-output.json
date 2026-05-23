@@ -141,5 +141,70 @@
     "effects": {
       "backdrop_filter": true
     }
+  },
+  "components": {
+    "buttons": {
+      "count": 8,
+      "variants": ["primary", "secondary", "outline", "ghost"],
+      "examples": [
+        { "text": "Get Started", "classes": ["btn", "btn-primary", "rounded-lg"] },
+        { "text": "Learn More", "classes": ["btn", "btn-outline"] },
+        { "text": "Contact", "classes": ["btn", "btn-ghost"] }
+      ]
+    },
+    "cards": {
+      "count": 6,
+      "patterns": ["card", "feature-card", "pricing-card"]
+    },
+    "modals": {
+      "count": 1,
+      "detected": true
+    },
+    "forms": {
+      "count": 1,
+      "inputs": 4,
+      "selects": 0,
+      "textareas": 1
+    },
+    "navigation": {
+      "count": 2,
+      "types": ["header", "footer"]
+    },
+    "icons": {
+      "count": 18,
+      "libraries": ["lucide", "svg"]
+    },
+    "images": {
+      "count": 24,
+      "backgrounds": 5,
+      "lazyLoaded": 12
+    },
+    "lists": {
+      "ordered": 0,
+      "unordered": 3
+    },
+    "tables": {
+      "count": 0,
+      "rows": 0
+    }
+  },
+  "spacing_system": {
+    "gaps": {
+      "values": ["16px", "24px", "32px", "8px"],
+      "mostCommon": "16px",
+      "patterns": ["8px grid", "16px base unit"]
+    },
+    "paddings": {
+      "values": ["16px", "24px", "32px", "48px", "64px"],
+      "mostCommon": "16px"
+    },
+    "margins": {
+      "values": ["8px", "16px", "24px", "32px"],
+      "mostCommon": "16px"
+    },
+    "spacing_scale": ["4px", "8px", "16px", "24px", "32px", "48px", "64px", "96px"],
+    "container_widths": ["1280px", "1440px"],
+    "is_tailwind": true,
+    "tailwind_scale": ["4px", "8px", "16px", "24px", "32px", "48px", "64px", "96px"]
   }
 }

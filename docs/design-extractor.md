@@ -8,6 +8,8 @@
 
 - Tech Stack (framework, CSS, analytics, fonts, icons)
 - Design Tokens (colors, typography, CSS variables)
+- **Component Detection** (buttons, cards, modals, forms, navigation)
+- **Spacing System** (gap, padding, margin patterns, Tailwind detection)
 - Screenshots (full page, sections, responsive)
 - Layout Information (grid, flexbox)
 
@@ -49,7 +51,7 @@ Open [http://localhost:3001](http://localhost:3001) in your browser.
 
 ## Analysis Pipeline
 
-### 5 Stages
+### 7 Stages
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -66,20 +68,39 @@ Open [http://localhost:3001](http://localhost:3001) in your browser.
 │ ├── Content Sections (up to 12)                             │
 │ └── Footer                                                  │
 ├─────────────────────────────────────────────────────────────┤
-│ Stage 3: Screenshots (55%)                                  │
+│ Stage 3: Component Detection (45%) ⭐ NEW                   │
+│ ├── Buttons: count, variants, examples                      │
+│ ├── Cards: count, patterns                                  │
+│ ├── Modals: count, detected                                 │
+│ ├── Forms: inputs, selects, textareas                       │
+│ ├── Navigation: count, types                                │
+│ ├── Icons: count, libraries                                 │
+│ ├── Images: count, backgrounds, lazy-loaded                 │
+│ ├── Lists: ordered, unordered                               │
+│ └── Tables: count, rows                                     │
+├─────────────────────────────────────────────────────────────┤
+│ Stage 4: Spacing System (50%) ⭐ NEW                        │
+│ ├── Gaps: values, most common, patterns                     │
+│ ├── Paddings: values, most common                           │
+│ ├── Margins: values, most common                            │
+│ ├── Spacing Scale: unique sorted values                     │
+│ ├── Container Widths: max-width values                      │
+│ └── Tailwind Detection: scale matching                      │
+├─────────────────────────────────────────────────────────────┤
+│ Stage 5: Screenshots (55%)                                  │
 │ ├── Full Page (desktop 1280px)                              │
 │ ├── Section Screenshots (each detected section)             │
 │ └── Responsive:                                             │
 │     ├── Tablet (768x1024)                                   │
 │     └── Mobile (375x812)                                    │
 ├─────────────────────────────────────────────────────────────┤
-│ Stage 4: Design System (75%)                                │
+│ Stage 6: Design System (75%)                                │
 │ ├── Colors: theme, background, text, used (up to 15)       │
 │ ├── Typography: font-family, size, line-height              │
 │ ├── CSS Variables: all custom properties                    │
 │ └── Animations: animation names used                        │
 ├─────────────────────────────────────────────────────────────┤
-│ Stage 5: Export (90%)                                       │
+│ Stage 7: Export (90%)                                       │
 │ ├── JSON format (data.json)                                 │
 │ └── CSS format (optional)                                   │
 └─────────────────────────────────────────────────────────────┘
@@ -142,6 +163,42 @@ Open [http://localhost:3001](http://localhost:3001) in your browser.
     },
     "animations": ["fadeIn", "slideUp"],
     "effects": { "backdrop_filter": true }
+  },
+  "components": {
+    "buttons": {
+      "count": 12,
+      "variants": ["primary", "secondary", "outline"],
+      "examples": [
+        { "text": "Get Started", "classes": ["btn", "btn-primary"] }
+      ]
+    },
+    "cards": { "count": 8, "patterns": ["card", "feature-card"] },
+    "modals": { "count": 2, "detected": true },
+    "forms": { "count": 1, "inputs": 5, "selects": 1, "textareas": 0 },
+    "navigation": { "count": 2, "types": ["header", "footer"] },
+    "icons": { "count": 24, "libraries": ["lucide", "svg"] },
+    "images": { "count": 15, "backgrounds": 3, "lazyLoaded": 8 },
+    "lists": { "ordered": 0, "unordered": 4 },
+    "tables": { "count": 0, "rows": 0 }
+  },
+  "spacing_system": {
+    "gaps": {
+      "values": ["16px", "24px", "8px"],
+      "mostCommon": "16px",
+      "patterns": ["8px grid", "16px base unit"]
+    },
+    "paddings": {
+      "values": ["16px", "24px", "32px"],
+      "mostCommon": "16px"
+    },
+    "margins": {
+      "values": ["8px", "16px", "24px"],
+      "mostCommon": "8px"
+    },
+    "spacing_scale": ["4px", "8px", "16px", "24px", "32px", "48px", "64px"],
+    "container_widths": ["1280px", "1440px"],
+    "is_tailwind": true,
+    "tailwind_scale": ["4px", "8px", "16px", "24px", "32px", "48px", "64px"]
   }
 }
 ```
@@ -207,34 +264,20 @@ curl http://localhost:3001/api/sites
 
 ## GAP Analysis
 
-### Currently Missing
+### ✅ Implemented
+
+| Feature | Status | Description |
+|---------|--------|-------------|
+| Component Detection | ✅ Done | Buttons, cards, modals, forms, navigation, icons, images, lists, tables |
+| Spacing System | ✅ Done | Gap, padding, margin patterns with Tailwind detection |
+
+### 🚧 Still Missing
 
 | Feature | Priority | Description |
 |---------|----------|-------------|
-| Component Detection | High | Detect buttons, cards, modals, forms |
-| Spacing System | High | Extract gap, padding, margin patterns |
 | Interaction Patterns | Medium | Hover, focus, transition states |
 | Accessibility | Medium | ARIA labels, contrast, focus visible |
 | Breakpoints | Low | Actual responsive breakpoints used |
-
-### Planned Improvements
-
-```typescript
-// Component Detection (to add)
-const components = {
-  buttons: document.querySelectorAll('button, .btn').length,
-  cards: document.querySelectorAll('.card').length,
-  modals: document.querySelectorAll('[role="dialog"]').length,
-  forms: document.querySelectorAll('form').length
-};
-
-// Spacing System (to add)
-const spacing = {
-  gaps: new Set(), // '8px', '16px', '24px'...
-  paddings: new Set(),
-  margins: new Set()
-};
-```
 
 ## Output Location
 

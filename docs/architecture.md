@@ -41,6 +41,8 @@ UI-Kit Studio     → Создаёт интерфейсы из библиоте�
 │                        │                                        │
 │                        ├── Playwright (browser)                │
 │                        ├── Section Detection                   │
+│                        ├── Component Detection ⭐ NEW          │
+│                        ├── Spacing System ⭐ NEW               │
 │                        ├── Screenshot Generation               │
 │                        └── CSS Variables Extraction            │
 │                                                                 │
@@ -64,7 +66,7 @@ UI-Kit Studio     → Создаёт интерфейсы из библиоте�
 
 ## Component Architecture
 
-### Design Extractor (5 Stages)
+### Design Extractor (7 Stages)
 
 ```
 Stage 1: Tech Stack Extraction (20%)
@@ -79,18 +81,37 @@ Stage 2: Section Detection (40%)
 ├── Content Sections (up to 12)
 └── Footer
 
-Stage 3: Screenshots (55%)
+Stage 3: Component Detection (45%) ⭐ NEW
+├── Buttons (count, variants, examples)
+├── Cards (count, patterns)
+├── Modals (count, detected)
+├── Forms (inputs, selects, textareas)
+├── Navigation (count, types)
+├── Icons (count, libraries)
+├── Images (count, backgrounds, lazy-loaded)
+├── Lists (ordered, unordered)
+└── Tables (count, rows)
+
+Stage 4: Spacing System (50%) ⭐ NEW
+├── Gaps (values, most common, patterns)
+├── Paddings (values, most common)
+├── Margins (values, most common)
+├── Spacing Scale (unique sorted values)
+├── Container Widths (max-width values)
+└── Tailwind Detection (scale matching)
+
+Stage 5: Screenshots (55%)
 ├── Full Page (desktop)
 ├── Section Screenshots
 └── Responsive (tablet 768px, mobile 375px)
 
-Stage 4: Design System (75%)
+Stage 6: Design System (75%)
 ├── Colors (theme, background, text, used)
 ├── Typography (font-family, size, line-height)
 ├── CSS Variables
 └── Animations
 
-Stage 5: Export (90%)
+Stage 7: Export (90%)
 ├── JSON format
 └── CSS format (optional)
 ```
@@ -179,8 +200,8 @@ Library Extractor API:
 
 ### Design Extractor
 
-- [ ] Component Detection (buttons, cards, modals)
-- [ ] Spacing System extraction (gap, padding, margin)
+- [x] Component Detection (buttons, cards, modals)
+- [x] Spacing System extraction (gap, padding, margin)
 - [ ] Interaction Patterns (hover, focus, transitions)
 - [ ] Accessibility Analysis (ARIA, contrast)
 - [ ] Responsive Breakpoints detection
