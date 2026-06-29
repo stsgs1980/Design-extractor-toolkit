@@ -183,8 +183,8 @@ gh repo clone stsgs1980/zai-ui-kit
 
 | Component | Status | Version |
 |-----------|--------|---------|
-| Design Extractor | ✅ Production Ready | 2.0.0 |
-| Library Extractor | 🚧 In Development | 0.1.0 |
+| Design Extractor | Production Ready | 2.0.0 |
+| Library Extractor | In Development | 0.1.0 |
 
 ## License
 
